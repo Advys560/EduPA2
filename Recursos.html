@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Recursos</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1a5a93;
+      --secondary-color: #0a4a73;
+      --accent-color: #0a3a53;
+      --background-gradient: linear-gradient(135deg, #f4f8fb 0%, #eaf6fb 100%);
+      --text-color: #1a5a93;
+      --white-color: #ffffff;
+      --shadow-color: rgba(26, 90, 147, 0.08);
+      --transition-speed: 0.3s;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--background-gradient);
+      color: var(--text-color);
+      min-height: 100vh;
+    }
+
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.8em;
+      color: var(--primary-color);
+      text-align: center;
+      margin: 32px 0 10px 0;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px var(--shadow-color);
+    }
+
+    h3 {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 30px;
+      font-size: 1.3em;
+      letter-spacing: 1px;
+    }
+
+    .mi-div {
+      padding: 32px;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: var(--white-color);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px var(--shadow-color);
+    }
+
+    .btn-link {
+      padding: 12px 25px;
+      background-color: var(--secondary-color);
+      color: var(--white-color) !important;
+      border: none;
+      border-radius: 25px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all var(--transition-speed) ease;
+      display: inline-block;
+      margin: 10px 10px 10px 0;
+      box-shadow: 0 2px 8px var(--shadow-color);
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+    }
+    .btn-link:hover {
+      background-color: var(--accent-color);
+      color: var(--white-color) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px var(--shadow-color);
+    }
+
+    .cerrar-sesion {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
+      background: #ff4d4d;
+      color: var(--white-color);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1000;
+      padding: 0;
+      line-height: 32px;
+      text-align: center;
+      transition: background-color var(--transition-speed) ease;
+      box-shadow: 0 2px 8px var(--shadow-color);
+    }
+
+    .cerrar-sesion:hover {
+      background: #d11a2a;
+    }
+
+    /* Sidebar */
+    .sidebar-toggle {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 1200;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sidebar-toggle .icon {
+      width: 32px;
+      height: 32px;
+      display: block;
+      fill: var(--primary-color);
+      transition: fill 0.2s;
+    }
+    .sidebar-toggle:hover .icon {
+      fill: var(--accent-color);
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 260px;
+      height: 100vh;
+      background: #fff;
+      box-shadow: 2px 0 16px var(--shadow-color);
+      border-right: 1px solid #eaf6fb;
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      transition: left 0.3s;
+      padding-top: 60px;
+    }
+    .sidebar.open {
+      left: 0;
+    }
+    .sidebar .sidebar-header {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.3em;
+      color: var(--primary-color);
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 24px;
+      letter-spacing: 1px;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0 24px;
+      margin: 0;
+    }
+    .sidebar ul li {
+      margin-bottom: 18px;
+    }
+    .sidebar ul li a {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-size: 1.08em;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      padding: 10px 0;
+      display: block;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .sidebar ul li a:hover {
+      background: #eaf6fb;
+      color: var(--accent-color);
+    }
+    .sidebar ul li ul {
+      margin-top: 8px;
+      margin-left: 12px;
+    }
+    .sidebar ul li ul li a {
+      font-size: 0.98em;
+      padding-left: 12px;
+    }
+
+    /* Contenido principal */
+    main {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+      text-align: left;
+    }
+    h2 {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    h4 {
+      color: var(--secondary-color);
+      font-family: 'Montserrat', sans-serif;
+    }
+    p, ul, ol {
+      font-size: 1.05em;
+      color: #222;
+    }
+    .boxed {
+      background: #eaf6fb;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-family: 'Roboto Mono', monospace;
+      color: var(--primary-color);
+      display: inline-block;
+    }
+    .content.card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px var(--shadow-color);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .exercise {
+      background: #f4f8fb;
+      border-radius: 8px;
+      padding: 12px 18px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 4px var(--shadow-color);
+    }
+    figure img {
+      max-width: 260px;
+      width: 40%;
+      height: auto;
+      border: 1px solid #e6e6e6;
+      border-radius: 6px;
+      padding: 8px;
+      background: #fff;
+    }
+    figure figcaption {
+      font-size: 0.95em;
+      color: #555;
+      margin-top: 6px;
+    }
+    .resource-figs {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* Contact bubble */
+    .contact-bubble {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      z-index: 1200;
+      cursor: pointer;
+      font-size: 2em;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <button class="cerrar-sesion" onclick="window.location.href='sesion.html'">X</button>
+  <!-- Botón de menú hamburguesa -->
+  <button class="sidebar-toggle" id="sidebarToggle" title="Menú">
+    <svg class="icon" viewBox="0 0 32 32">
+      <rect y="6" width="32" height="4" rx="2"/>
+      <rect y="14" width="32" height="4" rx="2"/>
+      <rect y="22" width="32" height="4" rx="2"/>
+    </svg>
+  </button>
+  <!-- Barra lateral -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">Menú</div>
+    <ul>
+      <li><a href="Idea1.html">Inicio</a></li>
+      <li>Cursos
+        <ul>
+          <li><a href="Quimica.html">Química</a></li>
+          <li><a href="Fisica.html">Física</a></li>
+          <li><a href="Recursos.html">Recursos</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="logo">EduPath</div>
+  <div class="mi-div">
+    <h3>Recursos</h3>
+    <main>
+      <section id="simuladores" class="content card">
+        <h2>Simuladores recomendados</h2>
+        <ul>
+          <li><a href="https://phet.colorado.edu/es/simulations" target="_blank" rel="noopener">PhET Simulaciones (Física y Química)</a></li>
+          <li><a href="https://www.ptable.com/" target="_blank" rel="noopener">Tabla periódica interactiva — ptable</a></li>
+        </ul>
+        <p>Los simuladores permiten experimentar virtualmente y reforzar la comprensión. Recomendados:</p>
+        <ul>
+          <li><a href="https://phet.colorado.edu/es/simulations" target="_blank" rel="noopener">PhET Simulaciones</a> — visualiza ondas, circuitos, reacciones y más.</li>
+          <li><a href="https://www.ptable.com/" target="_blank" rel="noopener">ptable</a> — consulta propiedades atómicas y tendencias periódicas.</li>
+        </ul>
+      </section>
+
+      <section id="videos" class="content card">
+        <h2>Videos y guías</h2>
+        <ul>
+          <li><a href="#" target="_blank" rel="noopener">Playlist: Conceptos clave de Física</a></li>
+          <li><a href="#" target="_blank" rel="noopener">Playlist: Química básica y problemas resueltos</a></li>
+        </ul>
+        <p>Sugerencia: combina un video de 10-15 minutos con 20-30 minutos de práctica para consolidar cada tema.</p>
+      </section>
+
+      <section id="material-docente" class="content card">
+        <h2>Material para el docente / descargas</h2>
+        <p>Recursos para preparar clases y evaluaciones: guías, presentaciones y listas de ejercicios con soluciones. Puedes descargar y adaptar los materiales para tu contexto.</p>
+        <ul>
+          <li><a href="templates/report_template.docx" download>Plantilla de informe de laboratorio (docx)</a></li>
+          <li><a href="templates/rubrica_evaluacion.xlsx" download>Rúbrica de evaluación (xlsx)</a></li>
+          <li><a href="templates/banco_problemas.pdf" download>Banco de problemas resueltos (PDF)</a></li>
+        </ul>
+        <p>Consejo: incluye rúbricas y hojas de evaluación para facilitar la retroalimentación.</p>
+      </section>
+
+      <section id="indice" class="content card">
+        <h2>Índice interactivo y rutas de estudio</h2>
+        <p>Desde aquí puedes saltar a las secciones principales del sitio:</p>
+        <div>
+          <a href="Fisica.html">Ir a Física</a> |
+          <a href="Quimica.html">Ir a Química</a> |
+          <a href="Idea1.html">Ir a Inicio</a>
+        </div>
+        <ul>
+          <li><strong>Repaso rápido (1 día):</strong> lee los resúmenes y mira 2 videos clave.</li>
+          <li><strong>Preparación de evaluación (1 semana):</strong> prioriza ejercicios y simuladores.</li>
+          <li><strong>Proyecto práctico:</strong> usa simuladores para diseñar una práctica y presenta resultados con gráficos y conclusiones.</li>
+        </ul>
+      </section>
+
+      <section id="descargables" class="content card">
+        <h2>Enlaces y plantillas descargables</h2>
+        <ul>
+          <li><a href="templates/report_template.docx" download>Plantilla de informe de laboratorio (docx)</a></li>
+          <li><a href="templates/rubrica_evaluacion.xlsx" download>Rúbrica de evaluación (xlsx)</a></li>
+          <li><a href="templates/banco_problemas.pdf" download>Banco de problemas resueltos (PDF)</a></li>
+        </ul>
+        <h3>Libros recomendados</h3>
+        <ul>
+          <li>Serway & Jewett — Física para ciencias e ingeniería.</li>
+          <li>Brown, LeMay — Química: La ciencia central.</li>
+        </ul>
+        <h3>Actividades prácticas sugeridas</h3>
+        <ol>
+          <li>Proyecto: medir la aceleración con el teléfono (acelerómetro) y analizar errores.</li>
+          <li>Experimento guiado: determinación de densidad por desplazamiento de agua.</li>
+          <li>Actividad de química: preparar una solución estándar y realizar una titulación.</li>
+        </ol>
+        <figure class="resource-figs" style="margin-top:12px">
+          <img src="assets/svg/vector_diagram.svg" alt="Diagrama vectorial" />
+          <img src="assets/svg/force_diagram.svg" alt="Diagrama de fuerzas" />
+        </figure>
+        <p style="margin-top:8px">Descarga las plantillas para preparar informes y rúbricas desde los enlaces anteriores.</p>
+      </section>
+    </main>
+  </div>
+  <!-- Botón de contacto -->
+  <a id="contactBubble" class="contact-bubble" title="Contacto" href="Frm.html" aria-label="Contacto">💬</a>
+  <script>
+    // Sidebar toggle funcional
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebar = document.getElementById("sidebar");
+    sidebarToggle.addEventListener('mouseover', () => sidebar.classList.add("open"));
+    sidebar.addEventListener('mouseleave', () => sidebar.classList.remove("open"));
+  </script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contáctanos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1a5a93;
+      --secondary-color: #0a4a73;
+      --accent-color: #0a3a53;
+      --background-gradient: linear-gradient(135deg, #f4f8fb 0%, #eaf6fb 100%);
+      --text-color: #1a5a93;
+      --white-color: #ffffff;
+      --shadow-color: rgba(26, 90, 147, 0.08);
+      --transition-speed: 0.3s;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--background-gradient);
+      color: var(--text-color);
+      font-family: 'Roboto', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 40px;
+    }
+
+    .contact_form {
+      background-color: var(--white-color);
+      padding: 40px 32px 32px 32px;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px var(--shadow-color);
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    h1, h3 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--primary-color);
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    form p {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: var(--primary-color);
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #c9e7fa;
+      border-radius: 8px;
+      box-sizing: border-box;
+      background-color: #f4f8fb;
+      color: #222;
+      font-size: 1em;
+      font-family: 'Roboto', sans-serif;
+      margin-bottom: 4px;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    textarea:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
+
+    textarea {
+      height: 100px;
+      resize: none;
+    }
+
+    #button,
+    #volver {
+      width: 100%;
+      background-color: var(--secondary-color);
+      color: var(--white-color);
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1em;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      box-shadow: 0 2px 8px var(--shadow-color);
+      transition: background 0.2s, box-shadow 0.2s;
+      margin-bottom: 8px;
+    }
+
+    #button:hover,
+    #volver:hover {
+      background-color: var(--accent-color);
+      color: var(--white-color);
+      box-shadow: 0 4px 16px var(--shadow-color);
+    }
+
+    .aviso {
+      font-size: 0.95em;
+      margin-top: 15px;
+      text-align: center;
+      color: #555;
+    }
+
+    .obligatorio {
+      color: red;
+    }
+
+    .cerrar-sesion {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
+      background: #ff4d4d;
+      color: var(--white-color);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1000;
+      padding: 0;
+      line-height: 32px;
+      text-align: center;
+      transition: background-color var(--transition-speed) ease;
+      box-shadow: 0 2px 8px var(--shadow-color);
+    }
+
+    .cerrar-sesion:hover {
+      background: #d11a2a;
+    }
+  </style>
+</head>
+<body>
+  <button class="cerrar-sesion" onclick="window.location.href='sesion.html'">X</button>
+  <div class="contact_form">
+    <div class="formulario">      
+      <h1>Formulario de contacto</h1>
+      <h3>Escríbenos y en breve nos pondremos en contacto contigo</h3>
+      <form id="form">
+        <p>
+          <label for="nombre" class="colocar_nombre">Nombre
+            <span class="obligatorio">*</span>
+          </label>
+          <input type="text" name="nombre" id="nombre" required="obligatorio" placeholder="Escribe tu nombre">
+        </p>
+      
+        <p>
+          <label for="email" class="colocar_email">Email
+            <span class="obligatorio">*</span>
+          </label>
+          <input type="email" name="email" id="email" required="obligatorio" placeholder="Escribe tu Email">
+        </p>
+    
+        <p>
+          <label for="telefono" class="colocar_telefono">Teléfono</label>
+          <input type="tel" name="telefono" id="telefono" placeholder="Escribe tu teléfono">
+        </p>    
+       
+        <p>
+          <label for="asunto" class="colocar_asunto">Asunto
+            <span class="obligatorio">*</span>
+          </label>
+          <input type="text" name="asunto" id="asunto" required="obligatorio" placeholder="Escribe un asunto">
+        </p>    
+      
+        <p>
+          <label for="mensaje" class="colocar_mensaje">Mensaje
+            <span class="obligatorio">*</span>
+          </label>                     
+          <textarea name="mensaje" class="texto_mensaje" id="mensaje" required="obligatorio" placeholder="Deja aquí tu comentario..."></textarea> 
+        </p>                    
+        
+        <input type="submit" id="button" value="Send Email">
+        <button id="volver" onclick="window.location.href='Idea1.html'; return false;">Volver</button>
+
+        <p class="aviso">
+          <span class="obligatorio"> * </span>los campos son obligatorios.
+        </p>          
+      </form>
+    </div>  
+  </div>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    emailjs.init('sOVYxJhb8VlrQYt71')
+  </script>
+  <script>
+    // EmailJS envío
+    const btn = document.getElementById('button');
+    document.getElementById('form')
+    .addEventListener('submit', function(event) {
+      event.preventDefault();
+      btn.value = 'Enviando...';
+      const serviceID = 'default_service';
+      const templateID = 'template_zc9atnr';
+      emailjs.sendForm(serviceID, templateID, this)
+        .then(() => {
+          btn.value = 'Send Email';
+          alert('Correo enviado con éxito');
+        }, (err) => {
+          btn.value = 'Send Email';
+          alert(JSON.stringify(err));
+        });
+    });
+  </script>
+</body>
+</html>

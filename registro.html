@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro</title>
+  <style>
+    /* ===========================
+       Variables y estilos base
+    ============================ */
+    :root {
+      --bg: #000;
+      --card: #1a1a1a;
+      --accent: #1e3f5a;
+      --success: #4CAF50;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    /* ===========================
+       Contenedor principal
+    ============================ */
+    main {
+      padding: 24px 18px 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ===========================
+       Tarjeta de formulario
+    ============================ */
+    .register-form {
+      background: var(--card);
+      padding: 36px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.4);
+      width: 100%;
+      max-width: 520px;
+    }
+    .register-form h1 {
+      margin-top: 0;
+      text-align: center;
+    }
+    .register-form input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 0;
+      background: #333;
+      color: #fff;
+      box-sizing: border-box;
+    }
+    .register-form .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 0;
+      background: var(--success);
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* ===========================
+       Mensajes de error
+    ============================ */
+    .error-message {
+      display: none;
+      color: #ff4d4d;
+      background: #2a0000;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* ===========================
+       Botón de volver
+    ============================ */
+    .back-btn {
+      position: fixed;
+      left: 12px;
+      top: 12px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--success);
+      color: #fff;
+      border: 0;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+      z-index: 1250;
+    }
+    .back-btn:hover {
+      box-shadow: 0 8px 20px rgba(76,175,80,0.22);
+      transform: translateY(-2px);
+    }
+    .back-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* ===========================
+       Burbuja de contacto
+    ============================ */
+    .contact-bubble {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      box-shadow: 0 6px 18px rgba(0,0,0,.25);
+      z-index: 1200;
+    }
+
+    /* ===========================
+       Panel de contacto
+    ============================ */
+    .contact-panel {
+      position: fixed;
+      right: 18px;
+      bottom: 86px;
+      width: 320px;
+      max-width: calc(100% - 40px);
+      background: #fff;
+      color: #222;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.2);
+      padding: 12px;
+      z-index: 1199;
+      display: none;
+    }
+    .contact-panel header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .contact-panel .home-btn,
+    .contact-panel .close-btn {
+      background: none;
+      border: 0;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .contact-panel .home-btn:hover,
+    .contact-panel .close-btn:hover {
+      box-shadow: none;
+      filter: none;
+    }
+    .contact-panel .home-btn:active,
+    .contact-panel .close-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* ===========================
+       Responsivo
+    ============================ */
+    @media (max-width:520px) {
+      .register-form {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Botón de volver -->
+  <button id="backBtn" class="back-btn" title="Volver">◀</button>
+
+  <!-- Formulario de registro -->
+  <main>
+    <section class="register-form" aria-labelledby="regTitle">
+      <h1 id="regTitle">Crear cuenta</h1>
+      <form id="registerForm" action="procesar_registro.php" method="POST" autocomplete="off">
+        <input type="text" name="nombre" placeholder="Usuario" required>
+        <input type="email" id="email" name="email" placeholder="Correo electrónico"
+               required pattern="^[a-zA-Z0-9._%+-]+@inemjose\.edu\.co$"
+               title="Solo se permiten correos @inemjose.edu.co">
+        <input type="password" id="password" name="password" placeholder="Contraseña">
+        <input type="password" id="confirmPassword" name="confirm_password" placeholder="Confirmar contraseña" required>
+        <input class="btn" type="submit" value="Registrarse">
+
+        <!-- Mensajes de error -->
+        <div id="passwordError" class="error-message">
+          La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.
+        </div>
+        <div id="confirmError" class="error-message">
+          Las contraseñas no coinciden.
+        </div>
+        <div id="emailError" class="error-message">
+          El correo electrónico debe pertenecer al dominio inemjose.edu.co.
+        </div>
+
+        <p style="text-align:center;margin-top:12px">
+          ¿Ya tienes cuenta? 
+          <a href="sesion.html" style="color:var(--success)">Iniciar sesión</a>
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <!-- Burbuja y panel de contacto -->
+  <a id="contactBubble" class="contact-bubble" href="Frm.html" title="Contacto" aria-label="Contacto">💬</a>
+  <div id="contactPanel" class="contact-panel" aria-hidden="true">
+    <header>
+      <strong>Contacto</strong>
+      <span>
+        <button id="homeBtn" class="home-btn" title="Volver">🏠</button>
+        <button id="closeContact" class="close-btn" title="Cerrar">✕</button>
+      </span>
+    </header>
+    <div class="contact-body">
+      <p>Puedes escribirnos o usar el formulario de contacto.</p>
+      <p><a href="Frm.html">Ir al formulario de contacto</a></p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    (function(){
+      // ========== Validaciones ==========
+      const form = document.getElementById('registerForm');
+      const passwordInput = document.getElementById('password');
+      const confirmInput = document.getElementById('confirmPassword');
+      const emailInput = document.getElementById('email');
+
+      const passwordError = document.getElementById('passwordError');
+      const confirmError = document.getElementById('confirmError');
+      const emailError = document.getElementById('emailError');
+
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@inemjose\.edu\.co$/;
+      const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/; // 🔹 agregado para validación real
+
+      if (form) {
+        form.addEventListener('submit', function(event){
+          let valid = true;
+
+          // Validar email
+          if (!emailPattern.test(emailInput.value)) {
+            emailError.style.display = 'block';
+            emailInput.focus();
+            valid = false;
+          } else {
+            emailError.style.display = 'none';
+          }
+
+          // Validar contraseña
+          if (!passwordPattern.test(passwordInput.value)) {
+            passwordError.style.display = 'block';
+            passwordInput.focus();
+            valid = false;
+          } else {
+            passwordError.style.display = 'none';
+          }
+
+          // Confirmación de contraseña
+          if (passwordInput.value !== confirmInput.value) {
+            confirmError.style.display = 'block';
+            confirmInput.focus();
+            valid = false;
+          } else {
+            confirmError.style.display = 'none';
+          }
+
+          if (!valid) event.preventDefault();
+        });
+      }
+
+      // Ocultar errores dinámicamente
+      if (emailInput) {
+        emailInput.addEventListener('input', () => {
+          if (emailPattern.test(emailInput.value)) emailError.style.display = 'none';
+        });
+      }
+      if (passwordInput) {
+        passwordInput.addEventListener('input', () => {
+          if (passwordPattern.test(passwordInput.value)) passwordError.style.display = 'none';
+          if (passwordInput.value === confirmInput.value) confirmError.style.display = 'none';
+        });
+      }
+      if (confirmInput) {
+        confirmInput.addEventListener('input', () => {
+          confirmError.style.display = passwordInput.value === confirmInput.value ? 'none' : 'block';
+        });
+      }
+
+      // ========== Panel de contacto ==========
+      const contactPanel = document.getElementById('contactPanel');
+      const closeContact = document.getElementById('closeContact');
+      const homeBtn = document.getElementById('homeBtn');
+
+      if (closeContact) {
+        closeContact.addEventListener('click', ()=>{
+          contactPanel.style.display='none';
+          contactPanel.setAttribute('aria-hidden','true');
+        });
+      }
+      if (homeBtn) homeBtn.addEventListener('click', ()=>{ history.back(); });
+    })();
+
+    // ========== Botón de volver ==========
+    const backBtn = document.getElementById('backBtn');
+    if (backBtn) backBtn.addEventListener('click', ()=>{ history.back(); });
+  </script>
+</body>
+</html>

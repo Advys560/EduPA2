@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Química - Repaso</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1a5a93;
+      --secondary-color: #0a4a73;
+      --accent-color: #0a3a53;
+      --background-gradient: linear-gradient(135deg, #f4f8fb 0%, #eaf6fb 100%);
+      --text-color: #1a5a93;
+      --white-color: #ffffff;
+      --shadow-color: rgba(26, 90, 147, 0.08);
+      --transition-speed: 0.3s;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--background-gradient);
+      color: var(--text-color);
+      min-height: 100vh;
+    }
+
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.8em;
+      color: var(--primary-color);
+      text-align: center;
+      margin: 32px 0 10px 0;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px var(--shadow-color);
+    }
+
+    h3 {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 30px;
+      font-size: 1.3em;
+      letter-spacing: 1px;
+    }
+
+    .mi-div {
+      padding: 32px;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: var(--white-color);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px var(--shadow-color);
+    }
+
+    .btn-link {
+      padding: 12px 25px;
+      background-color: var(--secondary-color);
+      color: var(--white-color) !important;
+      border: none;
+      border-radius: 25px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all var(--transition-speed) ease;
+      display: inline-block;
+      margin: 10px 10px 10px 0;
+      box-shadow: 0 2px 8px var(--shadow-color);
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+    }
+    .btn-link:hover {
+      background-color: var(--accent-color);
+      color: var(--white-color) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px var(--shadow-color);
+    }
+
+    .cerrar-sesion {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
+      background: #ff4d4d;
+      color: var(--white-color);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1000;
+      padding: 0;
+      line-height: 32px;
+      text-align: center;
+      transition: background-color var(--transition-speed) ease;
+      box-shadow: 0 2px 8px var(--shadow-color);
+    }
+
+    .cerrar-sesion:hover {
+      background: #d11a2a;
+    }
+
+    /* Sidebar */
+    .sidebar-toggle {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 1200;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sidebar-toggle .icon {
+      width: 32px;
+      height: 32px;
+      display: block;
+      fill: var(--primary-color);
+      transition: fill 0.2s;
+    }
+    .sidebar-toggle:hover .icon {
+      fill: var(--accent-color);
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 260px;
+      height: 100vh;
+      background: #fff;
+      box-shadow: 2px 0 16px var(--shadow-color);
+      border-right: 1px solid #eaf6fb;
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      transition: left 0.3s;
+      padding-top: 60px;
+    }
+    .sidebar.open {
+      left: 0;
+    }
+    .sidebar .sidebar-header {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.3em;
+      color: var(--primary-color);
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 24px;
+      letter-spacing: 1px;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0 24px;
+      margin: 0;
+    }
+    .sidebar ul li {
+      margin-bottom: 18px;
+    }
+    .sidebar ul li a {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-size: 1.08em;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      padding: 10px 0;
+      display: block;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .sidebar ul li a:hover {
+      background: #eaf6fb;
+      color: var(--accent-color);
+    }
+    .sidebar ul li ul {
+      margin-top: 8px;
+      margin-left: 12px;
+    }
+    .sidebar ul li ul li a {
+      font-size: 0.98em;
+      padding-left: 12px;
+    }
+
+    /* Contenido principal */
+    main {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+      text-align: left;
+    }
+    h2 {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    h4 {
+      color: var(--secondary-color);
+      font-family: 'Montserrat', sans-serif;
+    }
+    p, ul, ol {
+      font-size: 1.05em;
+      color: #222;
+    }
+    .boxed {
+      background: #eaf6fb;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-family: 'Roboto Mono', monospace;
+      color: var(--primary-color);
+      display: inline-block;
+    }
+    .content.card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px var(--shadow-color);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .exercise {
+      background: #f4f8fb;
+      border-radius: 8px;
+      padding: 12px 18px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 4px var(--shadow-color);
+    }
+    figure img {
+      max-width: 360px;
+      width: 85%;
+      height: auto;
+      border: 1px solid #e6e6e6;
+      border-radius: 6px;
+      padding: 8px;
+      background: #fff;
+    }
+    figure figcaption {
+      font-size: 0.95em;
+      color: #555;
+      margin-top: 6px;
+    }
+    aside.side-index {
+      background: #eaf6fb;
+      border-radius: 8px;
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 4px var(--shadow-color);
+    }
+    aside.side-index h3 {
+      color: var(--primary-color);
+      margin-top: 0;
+      font-size: 1.1em;
+      font-family: 'Montserrat', sans-serif;
+    }
+    aside.side-index ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+    aside.side-index ul li {
+      margin-bottom: 8px;
+    }
+    aside.side-index ul li a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: 500;
+      font-family: 'Montserrat', sans-serif;
+      transition: color 0.2s;
+    }
+    aside.side-index ul li a:hover {
+      color: var(--accent-color);
+      text-decoration: underline;
+    }
+
+    .contact-bubble {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #1e3f5a;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      z-index: 1200;
+      cursor: pointer;
+      font-size: 2em;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body class="repaso">
+  <button class="cerrar-sesion" onclick="window.location.href='sesion.html'">X</button>
+  <!-- Botón de menú hamburguesa -->
+  <button class="sidebar-toggle" id="sidebarToggle" title="Menú">
+    <svg class="icon" viewBox="0 0 32 32">
+      <rect y="6" width="32" height="4" rx="2"/>
+      <rect y="14" width="32" height="4" rx="2"/>
+      <rect y="22" width="32" height="4" rx="2"/>
+    </svg>
+  </button>
+  <!-- Barra lateral -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">Menú</div>
+    <ul>
+      <li><a href="Idea1.html">Inicio</a></li>
+      <li>Cursos<ul>
+          <li><a href="Quimica.html">Química</a></li>
+          <li><a href="Fisica.html">Física</a></li>
+          <li><a href="Recursos.html">Recursos</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="logo">EduPath</div>
+  <div class="mi-div">
+    <h3>Química - Repaso</h3>
+    <main>
+      <aside class="side-index" aria-label="Índice de Química">
+        <h3>Índice</h3>
+        <ul>
+          <li><a href="#def">¿Qué es la Química?</a></li>
+          <li><a href="#atomos">Átomos y estructura</a></li>
+          <li><a href="#enlaces">Enlaces químicos</a></li>
+          <li><a href="#reacciones">Reacciones y balanceo</a></li>
+          <li><a href="#esteq">Estequiometría</a></li>
+          <li><a href="#descargas-q">Descargables</a></li>
+        </ul>
+      </aside>
+
+      <section id="def" class="content card searchable">
+        <h2>¿Qué es la Química?</h2>
+        <p>La Química estudia la materia, su composición, estructura, propiedades y transformaciones. Es central en biología, ingeniería, medicina y tecnología.</p>
+        <p>Áreas fundamentales: química inorgánica, orgánica, fisicoquímica, analítica y bioquímica.</p>
+      </section>
+
+      <section id="atomos" class="content card searchable">
+        <h2>Átomos y estructura</h2>
+        <p>Partículas principales: protones (+), neutrones (0) y electrones (-). Número atómico = protones. Masa atómica ≈ protones + neutrones.</p>
+        <p>Los átomos están formados por protones, neutrones y electrones. El número atómico indica la cantidad de protones y define el elemento. La distribución electrónica determina propiedades como la reactividad y el tipo de enlace que formará.</p>
+        <p>Conceptos clave: número atómico (Z), masa atómica (A), niveles y subniveles electrónicos, configuración electrónica y principios como el de Aufbau y Hund.</p>
+      </section>
+
+      <section id="enlaces" class="content card searchable">
+        <h2>Enlaces químicos</h2>
+        <ul>
+          <li><strong>Iónico:</strong> transferencia de electrones entre un metal y un no metal; forman redes cristalinas con altos puntos de fusión.</li>
+          <li><strong>Covalente:</strong> compartición de electrones; puede ser polar o no polar según la electronegatividad.</li>
+          <li><strong>Metálico:</strong> mar de electrones deslocalizados que confiere conductividad y maleabilidad.</li>
+        </ul>
+        <p>Importante: la diferencia de electronegatividad entre átomos y la geometría molecular (VSEPR) determinan propiedades físicas y químicas.</p>
+        <figure style="margin-top:12px;margin-bottom:18px;text-align:center">
+          <img src="assets/svg/molecule.svg" alt="Diagrama molécula" style="max-width:320px;width:80%;height:auto;border:1px solid #e6e6e6;border-radius:6px;padding:8px;background:#fff" />
+          <figcaption style="font-size:0.95em;color:#555;margin-top:6px">Ejemplo: representación esquemática de una molécula simple</figcaption>
+        </figure>
+      </section>
+
+      <section id="reacciones" class="content card searchable">
+        <h2>Reacciones químicas</h2>
+        <p>Tipos: síntesis, descomposición, desplazamiento simple/doble, combustión.</p>
+        <p>Las reacciones implican la reorganización de átomos para formar nuevas sustancias. Se clasifican en síntesis, descomposición, desplazamiento simple/doble y combustión, entre otras.</p>
+        <p>Ejemplo (combustión): <span class="mono">2 H₂ + O₂ → 2 H₂O</span></p>
+        <h4>Balanceo de reacciones</h4>
+        <p>Para respetar la conservación de la masa, balancea las ecuaciones ajustando coeficientes estequiométricos. Método: contar átomos por elemento en ambos lados y ajustar.</p>
+      </section>
+
+      <section id="esteq" class="content card searchable">
+        <h2>Estequiometría</h2>
+        <p>Usar moles y masas molares para calcular cantidades: <span class="mono">n = m / M</span></p>
+        <p>La estequiometría usa moles y masas molares para relacionar cantidades de reactivos y productos en una reacción. Fórmula clave: <span class="mono">n = m / M</span> (m = masa, M = masa molar).</p>
+        <article class="exercise">
+          <h4>Ejemplo</h4>
+          <p>¿Cuántos moles hay en 44 g de CO₂ (M = 44 g/mol)? → n = 44/44 = 1 mol.</p>
+        </article>
+        <article class="exercise">
+          <h4>Ejemplo paso a paso (reacción)</h4>
+          <p>Datos: se queman 16 g de CH₄ (M_CH4 = 16 g/mol) con exceso de O₂. Ecuación: CH₄ + 2 O₂ → CO₂ + 2 H₂O.</p>
+          <ol>
+            <li>Calcula moles de CH₄: n = 16 / 16 = 1 mol.</li>
+            <li>Según la ecuación, 1 mol CH₄ produce 1 mol CO₂ y 2 mol H₂O. Por tanto se generan 1 mol CO₂.</li>
+            <li>Si se desea la masa de CO₂ formada: m = n · M = 1 · 44 = 44 g de CO₂.</li>
+          </ol>
+          <p>Interpretación: usar relaciones estequiométricas entre coeficientes para pasar de moles de reactivo a moles de producto y luego a masa si es necesario.</p>
+        </article>
+        <h4>Problema propuesto</h4>
+        <p>Si reaccionan 2 mol de H₂ con 1 mol de O₂, ¿cuántos moles de H₂O se forman (si la reacción es completa)?</p>
+        <p><em>Respuesta:</em> Según la ecuación 2 H₂ + O₂ → 2 H₂O, se producen 2 mol de H₂O.</p>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- NO HAY FOOTER -->
+
+  <a id="contactBubble" class="contact-bubble" title="Contacto" href="Frm.html" aria-label="Contacto">💬</a>
+  <script>
+    // Sidebar toggle funcional
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebar = document.getElementById("sidebar");
+    sidebarToggle.addEventListener('mouseover', () => sidebar.classList.add("open"));
+    sidebar.addEventListener('mouseleave', () => sidebar.classList.remove("open"));
+
+    // Índice navegación suave
+    document.querySelectorAll('.side-index a').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+  </script>
+</body>
+</html>
