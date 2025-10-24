@@ -1,197 +1,308 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Registro</title>
   <style>
-    /* ===========================
-       Variables y estilos base
-    ============================ */
-    :root {
-      --bg: #000;
-      --card: #1a1a1a;
-      --accent: #1e3f5a;
-      --success: #4CAF50;
-    }
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      background: var(--bg);
-      color: #fff;
-      font-family: Arial, sans-serif;
+      padding: 0;
     }
 
-    /* ===========================
-       Contenedor principal
-    ============================ */
-    main {
-      padding: 24px 18px 40px;
+    body {
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+      background: #fff;
+      color: #000;
+    }
+
+    /* Lado izquierdo */
+    .left-side {
+      flex: 1.5;
+      background-color: white;
       display: flex;
       justify-content: center;
+      align-items: flex-end;
+      padding-bottom: 40px;
+      position: relative;
     }
 
-    /* ===========================
-       Tarjeta de formulario
-    ============================ */
-    .register-form {
-      background: var(--card);
-      padding: 36px;
-      border-radius: 10px;
-      box-shadow: 0 6px 20px rgba(0,0,0,.4);
-      width: 100%;
-      max-width: 520px;
+    .building {
+      width: 120px;
+      border-radius: 15px;
+      border: 3px solid #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 0 20px;
+      transition: all 0.3s ease;
     }
-    .register-form h1 {
-      margin-top: 0;
+
+    .b1 { height: 180px; background-color: #ffd6a5; }
+    .b2 { height: 250px; background-color: #caffbf; }
+    .b3 { height: 160px; background-color: #a0c4ff; }
+
+    .eyes {
+      display: flex;
+      justify-content: space-between;
+      width: 50px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .eye {
+      width: 25px;
+      height: 25px;
+      background-color: white;
+      border-radius: 50%;
+      border: 2px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .pupil {
+      width: 10px;
+      height: 10px;
+      background-color: #000;
+      border-radius: 50%;
+      position: absolute;
+      transition: transform 0.1s linear;
+    }
+
+    .mouth {
+      width: 50px;
+      height: 25px;
+      border-bottom: 3px solid #000;
+      border-radius: 0 0 50px 50px;
+      transition: all 0.3s ease;
+    }
+
+    .whistle {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 3px solid #000;
+      background: none;
+      animation: whistleMove 1.5s infinite ease-in-out;
+    }
+
+    @keyframes whistleMove {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    /* Lado derecho */
+    .right-side {
+      flex: 1;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .login-form {
+      background-color: #111;
+      padding: 40px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 480px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    }
+
+    .login-form h1 {
       text-align: center;
-    }
-    .register-form input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 6px;
-      border: 0;
-      background: #333;
+      margin-bottom: 20px;
       color: #fff;
-      box-sizing: border-box;
     }
-    .register-form .btn {
-      display: block;
+
+    .login-form input[type="text"],
+    .login-form input[type="email"],
+    .login-form input[type="password"] {
       width: 100%;
       padding: 12px;
+      margin-bottom: 12px;
       border-radius: 6px;
-      border: 0;
-      background: var(--success);
-      color: #fff;
+      border: 2px solid #fff;
+      background-color: #fff;
+      color: #000;
       font-size: 16px;
-      cursor: pointer;
+      transition: 0.3s;
+      box-sizing: border-box;
     }
 
-    /* ===========================
-       Mensajes de error
-    ============================ */
+    .input-group {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding-right: 56px;
+      box-sizing: border-box;
+    }
+
+    .toggle-pass {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.95);
+      border: 1px solid #ccc;
+      color: #000;
+      padding: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0;
+      line-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 32px;
+      transition: transform 0.15s ease;
+    }
+
+    .toggle-pass svg { width: 20px; height: 14px; display: block; }
+
+    .toggle-pass .eye-open { display: block; }
+    .toggle-pass .eye-closed { display: none; }
+
+    .toggle-pass.active .eye-open { display: none; }
+    .toggle-pass.active .eye-closed { display: block; }
+
+    @keyframes blink {
+      0%, 90%, 100% { transform: scaleY(1); }
+      93%, 97% { transform: scaleY(0.15); }
+    }
+
+    .toggle-pass .eye-open {
+      transform-origin: center;
+      animation: blink 4.5s infinite ease-in-out;
+    }
+
+    .login-form input[type="text"]:focus,
+    .login-form input[type="email"]:focus,
+    .login-form input[type="password"]:focus {
+      border-color: #555;
+      outline: none;
+      background-color: #f0f0f0;
+    }
+
+    .btn {
+      width: 100%;
+      background-color: #fff;
+      color: #000;
+      padding: 12px;
+      border: 2px solid #000;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #000;
+      color: #fff;
+      border-color: #fff;
+    }
+
+    .register-link {
+      margin-top: 10px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .register-link a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .register-link a:hover {
+      color: #bbb;
+    }
+
     .error-message {
       display: none;
       color: #ff4d4d;
-      background: #2a0000;
+      background: rgba(255,0,0,0.06);
       padding: 10px;
       border-radius: 6px;
-      margin-top: 8px;
+      margin-bottom: 10px;
       text-align: center;
+      font-size: 15px;
     }
 
-    /* ===========================
-       Botón de volver
-    ============================ */
-    .back-btn {
-      position: fixed;
-      left: 12px;
-      top: 12px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--success);
-      color: #fff;
-      border: 0;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-      z-index: 1250;
-    }
-    .back-btn:hover {
-      box-shadow: 0 8px 20px rgba(76,175,80,0.22);
-      transform: translateY(-2px);
-    }
-    .back-btn:active {
-      transform: translateY(1px);
-    }
-
-    /* ===========================
-       Burbuja de contacto
-    ============================ */
-    .contact-bubble {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: var(--accent);
-      display: grid;
-      place-items: center;
-      color: #fff;
-      box-shadow: 0 6px 18px rgba(0,0,0,.25);
-      z-index: 1200;
-    }
-
-    /* ===========================
-       Panel de contacto
-    ============================ */
-    .contact-panel {
-      position: fixed;
-      right: 18px;
-      bottom: 86px;
-      width: 320px;
-      max-width: calc(100% - 40px);
-      background: #fff;
-      color: #222;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,.2);
-      padding: 12px;
-      z-index: 1199;
-      display: none;
-    }
-    .contact-panel header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .contact-panel .home-btn,
-    .contact-panel .close-btn {
-      background: none;
-      border: 0;
-      font-size: 18px;
-      cursor: pointer;
-    }
-    .contact-panel .home-btn:hover,
-    .contact-panel .close-btn:hover {
-      box-shadow: none;
-      filter: none;
-    }
-    .contact-panel .home-btn:active,
-    .contact-panel .close-btn:active {
-      transform: translateY(1px);
-    }
-
-    /* ===========================
-       Responsivo
-    ============================ */
-    @media (max-width:520px) {
-      .register-form {
-        padding: 20px;
-      }
+    @media (max-width: 800px) {
+      body { flex-direction: column; height: auto; }
+      .left-side, .right-side { flex: none; width: 100%; min-height: 40vh; }
+      .login-form { max-width: 540px; margin: 24px; }
+      .toggle-pass { background: rgba(255,255,255,0.9); }
     }
   </style>
 </head>
 <body>
-  <!-- Botón de volver -->
-  <button id="backBtn" class="back-btn" title="Volver">◀</button>
 
-  <!-- Formulario de registro -->
-  <main>
-    <section class="register-form" aria-labelledby="regTitle">
-      <h1 id="regTitle">Crear cuenta</h1>
+  <div class="left-side">
+    <div class="building b1">
+      <div class="eyes">
+        <div class="eye"><div class="pupil"></div></div>
+        <div class="eye"><div class="pupil"></div></div>
+      </div>
+      <div class="mouth"></div>
+    </div>
+
+    <div class="building b2">
+      <div class="eyes">
+        <div class="eye"><div class="pupil"></div></div>
+        <div class="eye"><div class="pupil"></div></div>
+      </div>
+      <div class="mouth"></div>
+    </div>
+
+    <div class="building b3">
+      <div class="eyes">
+        <div class="eye"><div class="pupil"></div></div>
+        <div class="eye"><div class="pupil"></div></div>
+      </div>
+      <div class="mouth"></div>
+    </div>
+  </div>
+
+  <div class="right-side">
+    <div class="login-form">
+      <h1>Crear cuenta</h1>
+
       <form id="registerForm" action="procesar_registro.php" method="POST" autocomplete="off">
         <input type="text" name="nombre" placeholder="Usuario" required>
-        <input type="email" id="email" name="email" placeholder="Correo electrónico"
-               required pattern="^[a-zA-Z0-9._%+-]+@inemjose\.edu\.co$"
-               title="Solo se permiten correos @inemjose.edu.co">
-        <input type="password" id="password" name="password" placeholder="Contraseña">
-        <input type="password" id="confirmPassword" name="confirm_password" placeholder="Confirmar contraseña" required>
-        <input class="btn" type="submit" value="Registrarse">
 
-        <!-- Mensajes de error -->
+        <input type="email" id="email" name="email" placeholder="Correo electrónico"
+          required pattern="^[a-zA-Z0-9._%+-]+@inemjose\.edu\.co$"
+          title="Solo se permiten correos @inemjose.edu.co">
+
+        <div class="input-group">
+          <input type="password" id="password" name="password" placeholder="Contraseña" required>
+          <button type="button" class="toggle-pass" data-target="password" aria-label="Mostrar contraseña">
+            <svg class="eye-open" viewBox="0 0 24 14"><path fill="#000" d="M1 7s3-5 11-5 11 5 11 5-3 5-11 5S1 7 1 7z"/><circle fill="#000" cx="12" cy="7" r="3"/></svg>
+            <svg class="eye-closed" viewBox="0 0 24 14"><path fill="#000" opacity="0.15" d="M1 7s3-5 11-5 11 5 11 5-3 5-11 5S1 7 1 7z"/><path stroke="#000" stroke-width="2" stroke-linecap="round" d="M2 2l20 10M2 12L22 2"/></svg>
+          </button>
+        </div>
+
+        <div class="input-group">
+          <input type="password" id="confirmPassword" name="confirm_password" placeholder="Confirmar contraseña" required>
+          <!-- botón removido intencionalmente -->
+        </div>
+
         <div id="passwordError" class="error-message">
           La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.
         </div>
@@ -202,36 +313,91 @@
           El correo electrónico debe pertenecer al dominio inemjose.edu.co.
         </div>
 
-        <p style="text-align:center;margin-top:12px">
-          ¿Ya tienes cuenta? 
-          <a href="sesion.html" style="color:var(--success)">Iniciar sesión</a>
-        </p>
+        <input class="btn" type="submit" value="Registrarse">
       </form>
-    </section>
-  </main>
 
-  <!-- Burbuja y panel de contacto -->
-  <a id="contactBubble" class="contact-bubble" href="Frm.html" title="Contacto" aria-label="Contacto">💬</a>
-  <div id="contactPanel" class="contact-panel" aria-hidden="true">
-    <header>
-      <strong>Contacto</strong>
-      <span>
-        <button id="homeBtn" class="home-btn" title="Volver">🏠</button>
-        <button id="closeContact" class="close-btn" title="Cerrar">✕</button>
-      </span>
-    </header>
-    <div class="contact-body">
-      <p>Puedes escribirnos o usar el formulario de contacto.</p>
-      <p><a href="Frm.html">Ir al formulario de contacto</a></p>
+      <div class="register-link">
+        <p>¿Ya tienes cuenta? <a href="sesion.html">Iniciar sesión</a></p>
+      </div>
     </div>
   </div>
 
-  <!-- Scripts -->
   <script>
-    (function(){
-      // ========== Validaciones ==========
+    const pupils = document.querySelectorAll('.pupil');
+    const passwordInput = document.getElementById('password');
+    const confirmInputTop = document.getElementById('confirmPassword');
+    const mouths = document.querySelectorAll('.mouth');
+
+    let isDistracted = false;
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDistracted) return;
+      pupils.forEach(pupil => {
+        const rect = pupil.getBoundingClientRect();
+        const eyeCenterX = rect.left + rect.width / 2;
+        const eyeCenterY = rect.top + rect.height / 2;
+        const angleX = e.clientX - eyeCenterX;
+        const angleY = e.clientY - eyeCenterY;
+        const distance = Math.min(Math.sqrt(angleX * angleX + angleY * angleY), 20);
+        const angle = Math.atan2(angleY, angleX);
+        const moveX = Math.cos(angle) * distance / 5;
+        const moveY = Math.sin(angle) * distance / 5;
+        pupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      });
+    });
+
+    const toggleDistractedFace = (active) => {
+      isDistracted = active;
+      if (active) {
+        pupils.forEach(pupil => pupil.style.transform = 'translate(-8px, -4px)');
+        mouths.forEach(mouth => mouth.classList.add('whistle'));
+      } else {
+        mouths.forEach(mouth => {
+          mouth.classList.remove('whistle');
+          mouth.style.width = '50px';
+          mouth.style.height = '25px';
+          mouth.style.borderBottom = '3px solid #000';
+          mouth.style.borderRadius = '0 0 50px 50px';
+        });
+      }
+    };
+
+    [passwordInput, confirmInputTop].forEach(input => {
+      if (input) {
+        input.addEventListener('focus', () => toggleDistractedFace(true));
+        input.addEventListener('blur', () => toggleDistractedFace(false));
+      }
+    });
+
+    // 👁 Mostrar / ocultar contraseña con sincronización (ahora solo hay botón en 'password'):
+    document.querySelectorAll('.toggle-pass').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        if (!input) return;
+
+        const wasPassword = input.type === 'password';
+        input.type = wasPassword ? 'text' : 'password';
+        input.focus();
+        btn.classList.toggle('active', wasPassword);
+        btn.style.transform = 'translateY(-50%) scale(0.9)';
+        setTimeout(() => {
+          btn.style.transform = 'translateY(-50%) scale(1)';
+        }, 150);
+
+        // sincronizar confirmPassword (si existe) cuando se interactúa con el ojo de password
+        if (targetId === 'password') {
+          const confirmInput = document.getElementById('confirmPassword');
+          if (confirmInput) {
+            confirmInput.type = wasPassword ? 'text' : 'password';
+          }
+        }
+      });
+    });
+
+    // Validación
+    (function () {
       const form = document.getElementById('registerForm');
-      const passwordInput = document.getElementById('password');
       const confirmInput = document.getElementById('confirmPassword');
       const emailInput = document.getElementById('email');
 
@@ -240,13 +406,12 @@
       const emailError = document.getElementById('emailError');
 
       const emailPattern = /^[a-zA-Z0-9._%+-]+@inemjose\.edu\.co$/;
-      const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/; // 🔹 agregado para validación real
+      const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
       if (form) {
-        form.addEventListener('submit', function(event){
+        form.addEventListener('submit', function (event) {
           let valid = true;
 
-          // Validar email
           if (!emailPattern.test(emailInput.value)) {
             emailError.style.display = 'block';
             emailInput.focus();
@@ -255,7 +420,6 @@
             emailError.style.display = 'none';
           }
 
-          // Validar contraseña
           if (!passwordPattern.test(passwordInput.value)) {
             passwordError.style.display = 'block';
             passwordInput.focus();
@@ -264,7 +428,6 @@
             passwordError.style.display = 'none';
           }
 
-          // Confirmación de contraseña
           if (passwordInput.value !== confirmInput.value) {
             confirmError.style.display = 'block';
             confirmInput.focus();
@@ -276,42 +439,7 @@
           if (!valid) event.preventDefault();
         });
       }
-
-      // Ocultar errores dinámicamente
-      if (emailInput) {
-        emailInput.addEventListener('input', () => {
-          if (emailPattern.test(emailInput.value)) emailError.style.display = 'none';
-        });
-      }
-      if (passwordInput) {
-        passwordInput.addEventListener('input', () => {
-          if (passwordPattern.test(passwordInput.value)) passwordError.style.display = 'none';
-          if (passwordInput.value === confirmInput.value) confirmError.style.display = 'none';
-        });
-      }
-      if (confirmInput) {
-        confirmInput.addEventListener('input', () => {
-          confirmError.style.display = passwordInput.value === confirmInput.value ? 'none' : 'block';
-        });
-      }
-
-      // ========== Panel de contacto ==========
-      const contactPanel = document.getElementById('contactPanel');
-      const closeContact = document.getElementById('closeContact');
-      const homeBtn = document.getElementById('homeBtn');
-
-      if (closeContact) {
-        closeContact.addEventListener('click', ()=>{
-          contactPanel.style.display='none';
-          contactPanel.setAttribute('aria-hidden','true');
-        });
-      }
-      if (homeBtn) homeBtn.addEventListener('click', ()=>{ history.back(); });
     })();
-
-    // ========== Botón de volver ==========
-    const backBtn = document.getElementById('backBtn');
-    if (backBtn) backBtn.addEventListener('click', ()=>{ history.back(); });
   </script>
 </body>
 </html>

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <title>Química - Repaso</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --primary-color: #1a5a93;
@@ -17,6 +18,8 @@
       --transition-speed: 0.3s;
     }
 
+    /* Reset / base */
+    * { box-sizing: border-box; }
     body {
       font-family: 'Roboto', sans-serif;
       margin: 0;
@@ -26,83 +29,174 @@
       min-height: 100vh;
     }
 
+    /* Header / logo */
     .logo {
       font-family: 'Montserrat', sans-serif;
-      font-size: 2.8em;
+      font-size: 2.8rem;
       color: var(--primary-color);
       text-align: center;
-      margin: 32px 0 10px 0;
-      font-weight: bold;
+      margin: 32px 0 10px;
+      font-weight: 700;
       letter-spacing: 2px;
       text-shadow: 0 2px 8px var(--shadow-color);
     }
 
-    h3 {
-      color: var(--primary-color);
+    /* Help button */
+    .help-button {
+      position: fixed;
+      left: 18px;
+      bottom: 18px;
+      background: var(--primary-color);
+      color: var(--white-color);
+      border-radius: 24px;
+      padding: 12px 20px;
+      text-decoration: none;
       font-weight: 600;
-      margin-bottom: 30px;
-      font-size: 1.3em;
-      letter-spacing: 1px;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 1200;
+      transition: transform var(--transition-speed), background-color var(--transition-speed);
+      box-shadow: 0 8px 24px var(--shadow-color);
     }
 
+    .help-button:hover {
+      transform: translateY(-2px);
+      background: var(--secondary-color);
+    }
+
+    .help-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* When sidebar is open, push the help button to the right to avoid overlap */
+    .sidebar-open .help-button {
+      transform: translateX(calc(var(--sidebar-width,260px) + 12px));
+    }
+
+    /* Main container */
     .mi-div {
       padding: 32px;
-      text-align: center;
       max-width: 1200px;
-      margin: 0 auto;
+      margin: 0 auto 48px;
       background-color: var(--white-color);
       border-radius: 18px;
       box-shadow: 0 8px 32px var(--shadow-color);
     }
 
-    .btn-link {
-      padding: 12px 25px;
-      background-color: var(--secondary-color);
-      color: var(--white-color) !important;
-      border: none;
-      border-radius: 25px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: all var(--transition-speed) ease;
-      display: inline-block;
-      margin: 10px 10px 10px 0;
+    h3 {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin: 0 0 18px;
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 18px auto 0;
+      padding: 0 8px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* Sidebar / índice */
+    aside.side-index {
+      background: #eaf6fb;
+      border-radius: 8px;
+      padding: 18px 20px;
+      box-shadow: 0 1px 4px var(--shadow-color);
+    }
+    aside.side-index h3 { color: var(--primary-color); margin: 0 0 10px; font-size: 1.05rem; }
+    aside.side-index ul { padding-left: 16px; margin: 0; }
+    aside.side-index ul li { margin-bottom: 10px; }
+    aside.side-index ul li a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: 500;
+      font-family: 'Montserrat', sans-serif;
+      transition: color 0.15s;
+    }
+    aside.side-index ul li a:hover {
+      color: var(--accent-color);
+      text-decoration: underline;
+    }
+
+    /* Content cards */
+    .content.card {
+      background: #fff;
+      border-radius: 12px;
       box-shadow: 0 2px 8px var(--shadow-color);
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+    h2 {
+      color: var(--primary-color);
+      margin: 0 0 12px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.25rem;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 6px;
+    }
+    p, ul, ol {
+      font-size: 1.02rem;
+      color: #222;
+      line-height: 1.5;
+      margin: 0 0 12px;
+    }
+    .exercise {
+      background: #f4f8fb;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 10px 0;
+      box-shadow: 0 1px 4px var(--shadow-color);
+    }
+
+    figure img {
+      max-width: 360px;
+      width: 85%;
+      height: auto;
+      border: 1px solid #e6e6e6;
+      border-radius: 6px;
+      padding: 8px;
+      display: block;
+      margin: 12px auto 6px;
+      background: #fff;
+    }
+    figure figcaption {
+      font-size: 0.95rem;
+      color: #555;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    /* Buttons */
+    .btn-link {
+      padding: 10px 18px;
+      background-color: var(--secondary-color);
+      color: var(--white-color);
+      border: none;
+      border-radius: 22px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all var(--transition-speed);
       text-decoration: none;
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
+      display: inline-block;
+      box-shadow: 0 2px 8px var(--shadow-color);
     }
     .btn-link:hover {
       background-color: var(--accent-color);
-      color: var(--white-color) !important;
       transform: translateY(-2px);
       box-shadow: 0 4px 16px var(--shadow-color);
     }
 
-    .cerrar-sesion {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      width: 32px;
-      height: 32px;
-      font-size: 18px;
-      background: #ff4d4d;
-      color: var(--white-color);
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 1000;
-      padding: 0;
-      line-height: 32px;
-      text-align: center;
-      transition: background-color var(--transition-speed) ease;
-      box-shadow: 0 2px 8px var(--shadow-color);
-    }
-
-    .cerrar-sesion:hover {
-      background: #d11a2a;
-    }
-
-    /* Sidebar */
+    /* Sidebar (slide) */
     .sidebar-toggle {
       position: fixed;
       top: 24px;
@@ -111,29 +205,21 @@
       background: none;
       border: none;
       cursor: pointer;
-      padding: 0;
       width: 40px;
       height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .sidebar-toggle .icon {
-      width: 32px;
-      height: 32px;
-      display: block;
-      fill: var(--primary-color);
-      transition: fill 0.2s;
-    }
-    .sidebar-toggle:hover .icon {
-      fill: var(--accent-color);
-    }
+    .sidebar-toggle .icon { width: 32px; height: 32px; fill: var(--primary-color); transition: fill 0.2s; }
+    .sidebar-toggle:hover .icon { fill: var(--accent-color); }
 
     .sidebar {
       position: fixed;
       top: 0;
       left: -260px;
       width: 260px;
+      --sidebar-width: 260px;
       height: 100vh;
       background: #fff;
       box-shadow: 2px 0 16px var(--shadow-color);
@@ -141,144 +227,83 @@
       z-index: 1100;
       display: flex;
       flex-direction: column;
-      transition: left 0.3s;
+      transition: left 0.3s ease;
       padding-top: 60px;
     }
-    .sidebar.open {
-      left: 0;
-    }
+    .sidebar.open { left: 0; }
     .sidebar .sidebar-header {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.3em;
+      font-size: 1.1rem;
       color: var(--primary-color);
       font-weight: 600;
       text-align: center;
-      margin-bottom: 24px;
-      letter-spacing: 1px;
-    }
-    .sidebar ul {
-      list-style: none;
-      padding: 0 24px;
-      margin: 0;
-    }
-    .sidebar ul li {
       margin-bottom: 18px;
     }
+    .sidebar ul { list-style: none; padding: 0 18px; margin: 0; }
+    .sidebar ul li { margin-bottom: 14px; }
     .sidebar ul li a {
       text-decoration: none;
       color: var(--primary-color);
-      font-size: 1.08em;
+      font-size: 1rem;
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
-      padding: 10px 0;
+      padding: 8px 6px;
       display: block;
-      border-radius: 8px;
-      transition: background 0.2s, color 0.2s;
-    }
-    .sidebar ul li a:hover {
-      background: #eaf6fb;
-      color: var(--accent-color);
-    }
-    .sidebar ul li ul {
-      margin-top: 8px;
-      margin-left: 12px;
-    }
-    .sidebar ul li ul li a {
-      font-size: 0.98em;
-      padding-left: 12px;
-    }
-
-    /* Contenido principal */
-    main {
-      max-width: 1000px;
-      margin: 30px auto;
-      padding: 0 20px;
-      text-align: left;
-    }
-    h2 {
-      color: var(--primary-color);
-      border-bottom: 2px solid var(--primary-color);
-      padding-bottom: 5px;
-      margin-bottom: 15px;
-      font-family: 'Montserrat', sans-serif;
-    }
-    h4 {
-      color: var(--secondary-color);
-      font-family: 'Montserrat', sans-serif;
-    }
-    p, ul, ol {
-      font-size: 1.05em;
-      color: #222;
-    }
-    .boxed {
-      background: #eaf6fb;
-      border-radius: 8px;
-      padding: 10px 16px;
-      margin: 10px 0;
-      font-family: 'Roboto Mono', monospace;
-      color: var(--primary-color);
-      display: inline-block;
-    }
-    .content.card {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px var(--shadow-color);
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-    .exercise {
-      background: #f4f8fb;
-      border-radius: 8px;
-      padding: 12px 18px;
-      margin-bottom: 12px;
-      box-shadow: 0 1px 4px var(--shadow-color);
-    }
-    figure img {
-      max-width: 360px;
-      width: 85%;
-      height: auto;
-      border: 1px solid #e6e6e6;
       border-radius: 6px;
-      padding: 8px;
-      background: #fff;
     }
-    figure figcaption {
-      font-size: 0.95em;
-      color: #555;
-      margin-top: 6px;
+    .sidebar ul li a:hover { background: #eaf6fb; color: var(--accent-color); }
+
+    /* Menú lateral */
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 100px);
     }
-    aside.side-index {
-      background: #eaf6fb;
-      border-radius: 8px;
-      padding: 18px 24px;
-      margin-bottom: 24px;
-      box-shadow: 0 1px 4px var(--shadow-color);
+    
+    .menu-section {
+      flex: 1;
     }
-    aside.side-index h3 {
+    
+    .menu-section ul {
+      margin-left: 1rem;
+    }
+    
+    .menu-header {
+      display: block;
+      font-weight: 600;
       color: var(--primary-color);
-      margin-top: 0;
-      font-size: 1.1em;
-      font-family: 'Montserrat', sans-serif;
+      margin: 8px 0;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-    aside.side-index ul {
-      padding-left: 18px;
-      margin: 0;
-    }
-    aside.side-index ul li {
-      margin-bottom: 8px;
-    }
-    aside.side-index ul li a {
-      color: var(--secondary-color);
-      text-decoration: none;
-      font-weight: 500;
-      font-family: 'Montserrat', sans-serif;
-      transition: color 0.2s;
-    }
-    aside.side-index ul li a:hover {
-      color: var(--accent-color);
-      text-decoration: underline;
+    
+    .menu-footer {
+      border-top: 1px solid var(--shadow-color);
+      margin-top: auto;
+      padding-top: 14px;
+      margin-bottom: 20px;
     }
 
+    .logout-button {
+      color: #ff4d4d !important;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logout-button:hover {
+      background: rgba(255, 77, 77, 0.1) !important;
+      color: #d11a2a !important;
+    }
+    
+    .logout-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Utilities */
     .contact-bubble {
       position: fixed;
       right: 18px;
@@ -293,37 +318,63 @@
       box-shadow: 0 6px 18px rgba(0,0,0,0.25);
       z-index: 1200;
       cursor: pointer;
-      font-size: 2em;
+      font-size: 1.6rem;
       text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; padding: 0; }
+      .sidebar { left: -320px; }
     }
   </style>
 </head>
+
 <body class="repaso">
-  <button class="cerrar-sesion" onclick="window.location.href='sesion.html'">X</button>
   <!-- Botón de menú hamburguesa -->
-  <button class="sidebar-toggle" id="sidebarToggle" title="Menú">
-    <svg class="icon" viewBox="0 0 32 32">
-      <rect y="6" width="32" height="4" rx="2"/>
-      <rect y="14" width="32" height="4" rx="2"/>
-      <rect y="22" width="32" height="4" rx="2"/>
+  <button class="sidebar-toggle" id="sidebarToggle" title="Menú" aria-label="Abrir menú">
+    <svg class="icon" viewBox="0 0 32 32" aria-hidden="true">
+      <rect y="6" width="32" height="4" rx="2"></rect>
+      <rect y="14" width="32" height="4" rx="2"></rect>
+      <rect y="22" width="32" height="4" rx="2"></rect>
     </svg>
   </button>
+
   <!-- Barra lateral -->
-  <nav class="sidebar" id="sidebar">
+  <nav id="sidebar" class="sidebar" aria-label="Navegación principal">
     <div class="sidebar-header">Menú</div>
-    <ul>
-      <li><a href="Idea1.html">Inicio</a></li>
-      <li>Cursos<ul>
-          <li><a href="Quimica.html">Química</a></li>
-          <li><a href="Fisica.html">Física</a></li>
-          <li><a href="Recursos.html">Recursos</a></li>
+    <div class="sidebar-menu">
+      <div class="menu-section">
+        <ul>
+          <li><a href="Idea1.html">Inicio</a></li>
+          <li>
+            <span class="menu-header">Cursos</span>
+            <ul>
+              <li><a href="Quimica.html">Química</a></li>
+              <li><a href="Fisica.html">Física</a></li>
+              <li><a href="Recursos.html">Recursos</a></li>
+            </ul>
+          </li>
         </ul>
-      </li>
-    </ul>
+      </div>
+      <div class="menu-footer">
+        <a href="sesion.html" class="logout-button">
+          <svg class="logout-icon" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16 17l5-5-5-5" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 12H9" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Cerrar Sesión
+        </a>
+      </div>
+    </div>
   </nav>
+
   <div class="logo">EduPath</div>
+
   <div class="mi-div">
     <h3>Química - Repaso</h3>
+
     <main>
       <aside class="side-index" aria-label="Índice de Química">
         <h3>Índice</h3>
@@ -346,8 +397,7 @@
       <section id="atomos" class="content card searchable">
         <h2>Átomos y estructura</h2>
         <p>Partículas principales: protones (+), neutrones (0) y electrones (-). Número atómico = protones. Masa atómica ≈ protones + neutrones.</p>
-        <p>Los átomos están formados por protones, neutrones y electrones. El número atómico indica la cantidad de protones y define el elemento. La distribución electrónica determina propiedades como la reactividad y el tipo de enlace que formará.</p>
-        <p>Conceptos clave: número atómico (Z), masa atómica (A), niveles y subniveles electrónicos, configuración electrónica y principios como el de Aufbau y Hund.</p>
+        <p>Conceptos clave: número atómico (Z), masa atómica (A), niveles y subniveles electrónicos, configuración electrónica y principios como Aufbau y Hund.</p>
       </section>
 
       <section id="enlaces" class="content card searchable">
@@ -357,66 +407,89 @@
           <li><strong>Covalente:</strong> compartición de electrones; puede ser polar o no polar según la electronegatividad.</li>
           <li><strong>Metálico:</strong> mar de electrones deslocalizados que confiere conductividad y maleabilidad.</li>
         </ul>
-        <p>Importante: la diferencia de electronegatividad entre átomos y la geometría molecular (VSEPR) determinan propiedades físicas y químicas.</p>
-        <figure style="margin-top:12px;margin-bottom:18px;text-align:center">
-          <img src="assets/svg/molecule.svg" alt="Diagrama molécula" style="max-width:320px;width:80%;height:auto;border:1px solid #e6e6e6;border-radius:6px;padding:8px;background:#fff" />
-          <figcaption style="font-size:0.95em;color:#555;margin-top:6px">Ejemplo: representación esquemática de una molécula simple</figcaption>
+        <figure>
+          <img src="enlaces.png" alt="Diagrama molécula" />
+          <figcaption>Ejemplo: representación esquemática de una molécula simple</figcaption>
         </figure>
       </section>
 
       <section id="reacciones" class="content card searchable">
         <h2>Reacciones químicas</h2>
         <p>Tipos: síntesis, descomposición, desplazamiento simple/doble, combustión.</p>
-        <p>Las reacciones implican la reorganización de átomos para formar nuevas sustancias. Se clasifican en síntesis, descomposición, desplazamiento simple/doble y combustión, entre otras.</p>
         <p>Ejemplo (combustión): <span class="mono">2 H₂ + O₂ → 2 H₂O</span></p>
+
         <h4>Balanceo de reacciones</h4>
-        <p>Para respetar la conservación de la masa, balancea las ecuaciones ajustando coeficientes estequiométricos. Método: contar átomos por elemento en ambos lados y ajustar.</p>
+        <p>Para respetar la conservación de la masa, balancea las ecuaciones ajustando coeficientes estequiométricos.</p>
       </section>
 
       <section id="esteq" class="content card searchable">
         <h2>Estequiometría</h2>
         <p>Usar moles y masas molares para calcular cantidades: <span class="mono">n = m / M</span></p>
-        <p>La estequiometría usa moles y masas molares para relacionar cantidades de reactivos y productos en una reacción. Fórmula clave: <span class="mono">n = m / M</span> (m = masa, M = masa molar).</p>
         <article class="exercise">
           <h4>Ejemplo</h4>
           <p>¿Cuántos moles hay en 44 g de CO₂ (M = 44 g/mol)? → n = 44/44 = 1 mol.</p>
         </article>
+
         <article class="exercise">
           <h4>Ejemplo paso a paso (reacción)</h4>
           <p>Datos: se queman 16 g de CH₄ (M_CH4 = 16 g/mol) con exceso de O₂. Ecuación: CH₄ + 2 O₂ → CO₂ + 2 H₂O.</p>
           <ol>
             <li>Calcula moles de CH₄: n = 16 / 16 = 1 mol.</li>
-            <li>Según la ecuación, 1 mol CH₄ produce 1 mol CO₂ y 2 mol H₂O. Por tanto se generan 1 mol CO₂.</li>
-            <li>Si se desea la masa de CO₂ formada: m = n · M = 1 · 44 = 44 g de CO₂.</li>
+            <li>Según la ecuación, 1 mol CH₄ produce 1 mol CO₂ y 2 mol H₂O.</li>
+            <li>Si se desea la masa de CO₂ formada: m = n · M = 1 · 44 = 44 g.</li>
           </ol>
-          <p>Interpretación: usar relaciones estequiométricas entre coeficientes para pasar de moles de reactivo a moles de producto y luego a masa si es necesario.</p>
         </article>
-        <h4>Problema propuesto</h4>
-        <p>Si reaccionan 2 mol de H₂ con 1 mol de O₂, ¿cuántos moles de H₂O se forman (si la reacción es completa)?</p>
-        <p><em>Respuesta:</em> Según la ecuación 2 H₂ + O₂ → 2 H₂O, se producen 2 mol de H₂O.</p>
       </section>
-
     </main>
   </div>
 
-  <!-- NO HAY FOOTER -->
+  <!-- Help button -->
+  <a href="manual.html" class="help-button" title="Ayuda" aria-label="Ver manual de usuario">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+      <line x1="12" y1="17" x2="12" y2="17"/>
+    </svg>
+    ¿Necesitas ayuda?
+  </a>
 
   <a id="contactBubble" class="contact-bubble" title="Contacto" href="Frm.html" aria-label="Contacto">💬</a>
+
   <script>
-    // Sidebar toggle funcional
+    // Elements (verificar existencia)
     const sidebarToggle = document.getElementById("sidebarToggle");
     const sidebar = document.getElementById("sidebar");
-    sidebarToggle.addEventListener('mouseover', () => sidebar.classList.add("open"));
-    sidebar.addEventListener('mouseleave', () => sidebar.classList.remove("open"));
+    const sideLinks = document.querySelectorAll('.side-index a');
 
-    // Índice navegación suave
-    document.querySelectorAll('.side-index a').forEach(a=>{
-      a.addEventListener('click', e=>{
-        e.preventDefault();
-        const target = document.querySelector(a.getAttribute('href'));
-        if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    if (sidebarToggle && sidebar) {
+      // abrir sidebar al pasar el mouse (desktop) y alternar con click (mobile)
+      sidebarToggle.addEventListener('mouseover', () => sidebar.classList.add("open"));
+      sidebar.addEventListener('mouseleave', () => sidebar.classList.remove("open"));
+      sidebarToggle.addEventListener('click', () => sidebar.classList.toggle("open"));
+    }
+
+    // Navegación suave desde índice
+    if (sideLinks.length) {
+      sideLinks.forEach(a => {
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          const target = document.querySelector(a.getAttribute('href'));
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // cerrar sidebar en móvil
+          if (window.innerWidth < 900 && sidebar) sidebar.classList.remove('open');
+        });
       });
-    });
+    }
+
+    // Observe sidebar class changes and toggle a body class so we can adjust the help button
+    if (sidebar) {
+      const sidebarObserver = new MutationObserver(() => {
+        document.body.classList.toggle('sidebar-open', sidebar.classList.contains('open'));
+      });
+      sidebarObserver.observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+      // set initial state
+      document.body.classList.toggle('sidebar-open', sidebar.classList.contains('open'));
+    }
   </script>
 </body>
 </html>

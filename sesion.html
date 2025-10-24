@@ -5,125 +5,315 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inicio de Sesión</title>
   <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      margin: 0;
-      padding: 0;
-      background-color: #000;
-      color: white;
       font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+      background: linear-gradient(180deg,#f7fbff 0%, #ffffff 100%);
+    }
+
+    /* LADO IZQUIERDO */
+    .left-side {
+      flex: 1.5;
+      background-color: white;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      padding-top: 40px;
+      align-items: flex-end;
+      padding-bottom: 40px;
+      position: relative;
+    }
+
+    .building { width: 120px; border-radius: 15px; border: 3px solid #333;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative; margin: 0 20px; transition: all 0.3s ease;
+    }
+    .b1 { height: 180px; background-color: #ffd6a5; }
+    .b2 { height: 250px; background-color: #caffbf; }
+    .b3 { height: 160px; background-color: #a0c4ff; }
+
+    .eyes { display:flex; justify-content:space-between; width:50px; margin-bottom:10px; }
+    .eye { width:25px; height:25px; background:#fff; border-radius:50%; border:2px solid #000;
+      display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative;
+    }
+    .pupil { width:10px; height:10px; background:#000; border-radius:50%; position:absolute; transition: transform .1s linear; }
+    .mouth { width:50px; height:25px; border-bottom:3px solid #000; border-radius:0 0 50px 50px; transition:all .3s ease; }
+    .whistle { width:14px; height:14px; border-radius:50%; border:3px solid #000; background:none; animation: whistleMove 1.5s infinite ease-in-out; }
+    @keyframes whistleMove { 0%,100%{transform:scale(1)} 50%{transform:scale(1.3)} }
+
+    /* LADO DERECHO */
+    .right-side {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 36px;
     }
 
     .login-form {
-      background-color: #1a1a1a;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #333;
-      width: 100%;
-      max-width: 500px;
+      background-color: #111;
+      padding: 36px;
+      border-radius: 12px;
+      width: 92%;
+      max-width: 420px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.35);
+      color: #fff;
+      position: relative;
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
+    .login-form h1 { text-align:center; margin-bottom:18px; color:#fff; font-size:22px; }
+
+    form { display:flex; flex-direction:column; gap:14px; }
+
+    label {
+      font-size:13px;
+      color:#ddd;
+      margin-bottom:6px;
+      display:block;
     }
 
     input[type="text"],
     input[type="password"] {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      border: none;
-      background-color: #333;
-      color: white;
-      box-sizing: border-box;
+      height:44px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(255,255,255,0.14);
+      background-color: #fff;
+      color: #000;
+      font-size:15px;
+      transition: box-shadow .15s ease, border-color .15s ease;
     }
+
+    input:focus {
+      outline: none;
+      border-color: #66a9ff;
+      box-shadow: 0 4px 18px rgba(34,102,255,0.08);
+      background-color: #fbfdff;
+    }
+
+    /* input-group y ojo */
+    .input-group { position: relative; display:block; }
+    .input-group .toggle-pass {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.95);
+      border: 1px solid #d0d6dc;
+      color: #000;
+      padding: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0;
+      line-height: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 32px;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .input-group .toggle-pass svg { width:20px; height:14px; display:block; }
+    .input-group.has-text .toggle-pass { display:flex; }
+    .toggle-pass:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-50%) scale(0.98); }
+
+    .toggle-pass .eye-open { display:block; transform-origin:center; animation: blink 4.5s infinite ease-in-out; }
+    .toggle-pass .eye-closed { display:none; }
+    .toggle-pass.active .eye-open { display:none; }
+    .toggle-pass.active .eye-closed { display:block; }
+
+    @keyframes blink { 0%,90%,100% { transform: scaleY(1) } 93%,97% { transform: scaleY(.18) } }
 
     .btn {
-      width: 100%;
-      background-color: #4CAF50;
-      color: white;
-      padding: 12px;
+      width:100%;
+      height:44px;
+      background:#fff;
+      color:#000;
+      border:0;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:15px;
+      transition: background .15s ease, color .15s ease;
+    }
+    .btn:hover { background:#000; color:#fff; border:1px solid #fff; }
+
+    .register-link { margin-top:8px; text-align:center; font-size:14px; color:#dfe9ff; }
+    .register-link a { color:#9ec7ff; text-decoration:underline; }
+
+    /* Botón de ayuda */
+    .help-button {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #ffffff;
       border: none;
-      border-radius: 5px;
-      cursor: pointer;
+      color: #111;
       font-size: 16px;
-      margin-top: 10px;
-    }
-
-    .btn:hover {
-      background-color: #45a049;
-    }
-
-    .register-link {
-      margin-top: 15px;
-      text-align: center;
-    }
-
-    .register-link a {
-      color: #4CAF50;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
       text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 10;
     }
 
-    .register-link a:hover {
-      text-decoration: underline;
+    .help-button:hover {
+      background: #f0f0f0;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
-    .error-message {
-      color: #ff4d4d;
-      background: #2a0000;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 10px;
-      text-align: center;
-      font-size: 15px;
-      display: none;
+    /* Responsive */
+    @media (max-width:800px){
+      body { flex-direction:column; height:auto; }
+      .left-side, .right-side { width:100%; min-height:260px; }
+      .login-form { margin:18px; max-width:640px; padding:20px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="login-form">
-    <h1>Inicio de Sesión</h1>
-    <form id="loginForm" action="procesar_login.php" method="POST">
-      <input type="text" name="username" placeholder="Usuario" required>
-      <div id="passwordError" class="error-message">
-        La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.
+  <!-- LADO IZQUIERDO -->
+  <div class="left-side">
+    <div class="building b1">
+      <div class="eyes">
+        <div class="eye"><div class="pupil"></div></div>
+        <div class="eye"><div class="pupil"></div></div>
       </div>
-      <input type="password" id="password" name="password" placeholder="Contraseña">
-      <input class="btn" type="submit" value="Iniciar Sesión">
-    </form>
-    <div class="register-link">
-      <p>¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
+      <div class="mouth"></div>
+    </div>
+
+    <div class="building b2">
+      <div class="eyes">
+        <div class="eye"><div class="pupil"></div></div>
+        <div class="eye"><div class="pupil"></div></div>
+      </div>
+      <div class="mouth"></div>
+    </div>
+
+    <div class="building b3">
+      <div class="eyes">
+        <div class="eye"><div class="pupil"></div></div>
+        <div class="eye"><div class="pupil"></div></div>
+      </div>
+      <div class="mouth"></div>
+    </div>
+  </div>
+
+  <!-- LADO DERECHO -->
+  <div class="right-side">
+    <div class="login-form">
+      <a href="manual1.html" class="help-button" title="Manual de usuario">?</a>
+      <h1>Inicio de Sesión</h1>
+
+      <form id="loginForm" action="procesar_login.php" method="POST" autocomplete="off">
+        <div>
+          <label for="username">Usuario</label>
+          <input type="text" id="username" name="username" placeholder="Usuario" required>
+        </div>
+
+        <div class="input-group" id="passGroup">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" placeholder="Contraseña" required>
+          <button type="button" class="toggle-pass" data-target="password" aria-label="Mostrar contraseña">
+            <svg class="eye-open" viewBox="0 0 24 14" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#000" d="M1 7s3-5 11-5 11 5 11 5-3 5-11 5S1 7 1 7z"/>
+              <circle fill="#000" cx="12" cy="7" r="3"/>
+            </svg>
+            <svg class="eye-closed" viewBox="0 0 24 14" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#000" opacity="0.15" d="M1 7s3-5 11-5 11 5 11 5-3 5-11 5S1 7 1 7z"/>
+              <path stroke="#000" stroke-width="2" stroke-linecap="round" d="M2 2l20 10M2 12L22 2"/>
+            </svg>
+          </button>
+        </div>
+
+        <button class="btn" type="submit">Iniciar Sesión</button>
+
+      </form>
+
+      <div class="register-link">
+        <p>¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
+      </div>
     </div>
   </div>
 
   <script>
-  const form = document.getElementById('loginForm');
-  const passwordInput = document.getElementById('password');
-  const passwordError = document.getElementById('passwordError');
+    const pupils = document.querySelectorAll('.pupil');
+    const passwordInput = document.getElementById('password');
+    const togglePass = document.querySelector('.toggle-pass');
+    const passGroup = document.getElementById('passGroup');
+    const mouths = document.querySelectorAll('.mouth');
+    let isDistracted = false;
 
-  form.addEventListener('submit', function(event) {
-    if (!passwordPattern.test(passwordInput.value)) {
-      passwordError.style.display = 'block';
-      passwordInput.focus();
-      event.preventDefault();
-    } else {
-      passwordError.style.display = 'none';
-      // No redirigir aquí, deja que el formulario se envíe al backend
+    // Mostrar botón del ojo solo si el usuario escribe algo (y añadir clase para estilos)
+    if (passwordInput && togglePass && passGroup) {
+      const updateEyeVisibility = () => {
+        const has = passwordInput.value && passwordInput.value.length > 0;
+        passGroup.classList.toggle('has-text', has);
+      };
+      passwordInput.addEventListener('input', updateEyeVisibility);
+      updateEyeVisibility();
     }
-  });
 
-  passwordInput.addEventListener('input', function() {
-    if (passwordPattern.test(passwordInput.value)) {
-      passwordError.style.display = 'none';
+    // Seguir cursor (si no están distraídos)
+    document.addEventListener('mousemove', (e) => {
+      if (isDistracted) return;
+      pupils.forEach(pupil => {
+        const rect = pupil.getBoundingClientRect();
+        const eyeCenterX = rect.left + rect.width / 2;
+        const eyeCenterY = rect.top + rect.height / 2;
+        const angleX = e.clientX - eyeCenterX;
+        const angleY = e.clientY - eyeCenterY;
+        const distance = Math.min(Math.hypot(angleX, angleY), 20);
+        const angle = Math.atan2(angleY, angleX);
+        const moveX = Math.cos(angle) * distance / 5;
+        const moveY = Math.sin(angle) * distance / 5;
+        pupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      });
+    });
+
+    // Modo distraído (cuando se enfoca la contraseña)
+    if (passwordInput) {
+      passwordInput.addEventListener('focus', () => {
+        isDistracted = true;
+        pupils.forEach(p => p.style.transform = 'translate(-8px, -4px)');
+        mouths.forEach(m => m.classList.add('whistle'));
+      });
+      passwordInput.addEventListener('blur', () => {
+        isDistracted = false;
+        mouths.forEach(m => {
+          m.classList.remove('whistle');
+          m.style.width = '50px';
+          m.style.height = '25px';
+          m.style.borderBottom = '3px solid #000';
+          m.style.borderRadius = '0 0 50px 50px';
+        });
+      });
     }
-  });
+
+    // Mostrar / ocultar contraseña
+    if (togglePass && passwordInput) {
+      togglePass.addEventListener('click', () => {
+        const isPwd = passwordInput.type === 'password';
+        passwordInput.type = isPwd ? 'text' : 'password';
+        togglePass.classList.toggle('active', isPwd);
+        // ligero efecto
+        togglePass.style.transform = 'translateY(-50%) scale(.96)';
+        setTimeout(() => togglePass.style.transform = 'translateY(-50%) scale(1)', 110);
+        passwordInput.focus();
+      });
+    }
   </script>
+
 </body>
 </html>

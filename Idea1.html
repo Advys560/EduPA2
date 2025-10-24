@@ -1,399 +1,379 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>EduPath</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EduPath — Repaso</title>
+
+  <!-- Tipografía más limpia y profesional: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
   <style>
-    :root {
-      --primary-color: #1a5a93;
-      --secondary-color: #0a4a73;
-      --accent-color: #0a3a53;
-      --background-gradient: linear-gradient(135deg, #f4f8fb 0%, #eaf6fb 100%);
-      --text-color: #1a5a93;
-      --white-color: #ffffff;
-      --shadow-color: rgba(26, 90, 147, 0.08);
-      --transition-speed: 0.3s;
+    :root{
+      --primary: #2e5870;
+      --secondary: #6d8a9e;
+      --accent: #9fbfd6;
+      --bg-gradient: linear-gradient(135deg,#fbfdff 0%,#f3f9fc 100%);
+      --white: #ffffff;
+      --shadow: rgba(46,88,112,0.06);
+      --transition: .28s;
     }
 
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: var(--background-gradient);
-      color: var(--text-color);
-      min-height: 100vh;
-      transition: margin-left 0.3s;
+    /* Reset base */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg-gradient);
+      color:var(--primary);
+      min-height:100vh;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      font-size:16px;
     }
 
-    .logo {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2.8em;
-      color: var(--primary-color);
+    /* Branding: logo grande y subtítulo centrado */
+    .branding {
       text-align: center;
-      margin: 32px 0 10px 0;
-      font-weight: bold;
-      letter-spacing: 2px;
-      text-shadow: 0 2px 8px var(--shadow-color);
+      margin: 28px 0 12px;
+    }
+    .logo{
+      font-weight:700;
+      font-size:2.8rem;
+      color:var(--primary);
+      letter-spacing:0.6px;
+      margin-bottom:6px;
+    }
+    .subtitle {
+      font-weight:600;
+      font-size:1.05rem;
+      color:var(--secondary);
+      margin-top:0;
     }
 
-    h3 {
-      color: var(--primary-color);
-      font-weight: 600;
-      margin-bottom: 30px;
-      font-size: 1.3em;
-      letter-spacing: 1px;
+    /* Container */
+    .mi-div{
+      max-width:1100px;
+      margin:20px auto 48px;
+      background:var(--white);
+      border-radius:12px;
+      padding:24px;
+      box-shadow:0 10px 30px var(--shadow);
     }
 
-    .mi-div {
-      padding: 32px;
-      text-align: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      background-color: var(--white-color);
-      border-radius: 18px;
-      box-shadow: 0 8px 32px var(--shadow-color);
+    /* Header / controls */
+    .custom-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 0 14px;
+      margin-bottom:12px;
     }
-
-    table {
-      width: 90%;
-      max-width: 1000px;
-      margin: 20px auto;
-      background-color: var(--white-color);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 16px var(--shadow-color);
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 15px;
-      text-align: center;
-      color: var(--primary-color);
-      border-bottom: 1px solid #eaf6fb;
-      font-size: 1em;
-    }
-
-    th {
-      background-color: var(--primary-color);
-      color: var(--white-color);
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-
-    .btn-link {
-      padding: 12px 25px;
-      background-color: var(--secondary-color);
-      color: var(--white-color) !important;
-      border: none;
-      border-radius: 25px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: all var(--transition-speed) ease;
-      display: inline-block;
-      margin: 10px 10px 10px 0;
-      box-shadow: 0 2px 8px var(--shadow-color);
-      text-decoration: none;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-    }
-    .btn-link:hover {
-      background-color: var(--accent-color);
-      color: var(--white-color) !important;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px var(--shadow-color);
-    }
-
-    .cerrar-sesion {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      width: 32px;
-      height: 32px;
-      font-size: 18px;
-      background: #ff4d4d;
-      color: var(--white-color);
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 1000;
-      padding: 0;
-      line-height: 32px;
-      text-align: center;
-      transition: background-color var(--transition-speed) ease;
-      box-shadow: 0 2px 8px var(--shadow-color);
-    }
-
-    .cerrar-sesion:hover {
-      background: #d11a2a;
+    .menu-icon{
+      background:transparent;border:0;color:var(--secondary);font-size:20px;cursor:pointer;
     }
 
     /* Sidebar */
-    .sidebar-toggle {
-      position: fixed;
-      top: 24px;
-      left: 24px;
-      z-index: 1200;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .sidebar-toggle{
+      position:fixed;top:20px;left:20px;z-index:1200;border:0;background:none;cursor:pointer;padding:6px;
     }
-    .sidebar-toggle .icon {
-      width: 32px;
-      height: 32px;
-      display: block;
-      fill: var(--primary-color);
-      transition: fill 0.2s;
-    }
-    .sidebar-toggle:hover .icon {
-      fill: var(--accent-color);
-    }
-
-    .sidebar {
+    .sidebar-toggle .icon{width:32px;height:32px;fill:var(--primary)}
+    .sidebar{ 
       position: fixed;
       top: 0;
-      left: -260px;
-      width: 260px;
+      left: -280px;
+      width: 280px;
+      --sidebar-width: 280px;
       height: 100vh;
-      background: #fff;
-      box-shadow: 2px 0 16px var(--shadow-color);
-      border-right: 1px solid #eaf6fb;
-      z-index: 1100;
+      background: var(--white);
+      box-shadow: 2px 0 16px var(--shadow);
+      z-index: 1150;
+      padding-top: 64px;
+      transition: left .28s;
       display: flex;
       flex-direction: column;
-      transition: left 0.3s;
-      padding-top: 60px;
     }
-    .sidebar.open {
-      left: 0;
-    }
-    .sidebar .sidebar-header {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.3em;
-      color: var(--primary-color);
-      font-weight: 600;
+    .sidebar.open{ left:0 }
+    .sidebar .sidebar-header{ 
+      font-weight: 700;
       text-align: center;
-      margin-bottom: 24px;
-      letter-spacing: 1px;
+      margin-bottom: 20px;
+      color: var(--primary);
+      padding: 0 18px;
     }
-    .sidebar ul {
+    .sidebar ul{ 
       list-style: none;
-      padding: 0 24px;
+      padding: 0 18px;
       margin: 0;
     }
-    .sidebar ul li {
-      margin-bottom: 18px;
+    .sidebar li{ 
+      margin-bottom: 14px;
     }
-    .sidebar ul li a {
-      text-decoration: none;
-      color: var(--primary-color);
-      font-size: 1.08em;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-      padding: 10px 0;
+    
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 100px);
+    }
+    
+    .menu-section {
+      flex: 1;
+    }
+    
+    .menu-section ul {
+      margin-left: 1rem;
+    }
+    
+    .menu-header {
       display: block;
-      border-radius: 8px;
-      transition: background 0.2s, color 0.2s;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 8px 0;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-    .sidebar ul li a:hover {
-      background: #eaf6fb;
-      color: var(--accent-color);
+    
+    .menu-footer {
+      border-top: 1px solid var(--shadow);
+      margin-top: auto;
+      padding-top: 14px;
+      margin-bottom: 20px;
     }
-    .sidebar ul li ul {
-      margin-top: 8px;
-      margin-left: 12px;
+    
+    .sidebar a{ 
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      transition: all var(--transition);
     }
-    .sidebar ul li ul li a {
-      font-size: 0.98em;
-      padding-left: 12px;
+    
+    .sidebar a:hover{ 
+      background: #f1f6fb;
+      color: var(--accent);
+    }
+
+    .logout-button {
+      color: #e45757 !important;
+      font-weight: 500;
+    }
+    
+    .logout-button:hover {
+      background: rgba(228, 87, 87, 0.1) !important;
+      color: #d32f2f !important;
+    }
+    
+    .logout-icon {
+      width: 20px;
+      height: 20px;
     }
 
     /* Contact bubble */
-    .contact-bubble {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: var(--accent-color);
-      color: #fff;
-      display: grid;
-      place-items: center;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-      z-index: 1200;
-      cursor: pointer;
-      font-size: 2em;
-      text-decoration: none;
-    }
+    .contact-bubble{ position:fixed;right:18px;bottom:18px;width:52px;height:52px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:1.4rem;z-index:1200;text-decoration:none;box-shadow:0 8px 24px rgba(75,134,180,0.12) }
 
-    /* Encabezado personalizado */
-    .custom-header {
-      background-color: var(--primary-color);
-      color: #fff;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-      padding-left: 56px;
-    }
-    .custom-header h1 {
-      margin: 0;
-      font-size: 1.8em;
-      font-family: 'Montserrat', sans-serif;
-    }
-    .custom-header .top-nav a {
-      background: linear-gradient(90deg,#3aa765,#28a745);
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 18px;
+    /* Help button */
+    .help-button {
+      position: fixed;
+      left: 18px;
+      bottom: 18px;
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 24px;
+      padding: 12px 20px;
       text-decoration: none;
       font-weight: 600;
-      box-shadow: 0 6px 18px rgba(40,167,69,0.18);
-      margin-left: 12px;
-      font-family: 'Montserrat', sans-serif;
-    }
-    .custom-header .top-nav a:hover {
-      background: #28a745;
-      color: #fff;
-    }
-    .custom-header .menu-icon {
-      font-size: 28px;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      color: #fff;
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       z-index: 1200;
-      padding: 6px 10px;
-      border-radius: 4px;
+      transition: transform var(--transition), background-color var(--transition);
+      box-shadow: 0 8px 24px rgba(46,88,112,0.15);
+    }
+
+    .help-button:hover {
+      transform: translateY(-2px);
+      background: var(--secondary);
+    }
+
+    .help-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* When sidebar is open, push the help button to the right to avoid overlap */
+    .sidebar-open .help-button {
+      transform: translateX(calc(var(--sidebar-width,260px) + 12px));
+    }
+
+    /* Content layout */
+    main{ margin-top:8px; display:block; color:#203244 }
+    h2{
+      color:var(--primary);
+      font-weight:600;
+      font-size:1.25rem;
+      margin:12px 0 8px;
+    }
+    p,ol,ul{
+      margin:10px 0;
+      color:#394a56;
+      font-size:1rem;
+    }
+    ul{ padding-left:1.1rem }
+    ol{ padding-left:1.1rem }
+
+    /* Tables */
+    table{ width:100%; border-collapse:collapse; margin:18px 0; border-radius:8px; overflow:hidden; background:var(--white) }
+    th,td{ padding:12px; text-align:center; color:var(--primary); border-bottom:1px solid #eef7fb; font-size:0.98rem }
+    th{ color:var(--secondary); font-weight:600; background:transparent }
+
+    /* Buttons */
+    .btn-link{
+      display:inline-block;
+      padding:10px 16px;
+      border-radius:14px;
+      background:var(--accent);
+      color:var(--white);
+      text-decoration:none;
+      font-weight:600;
+      transition:transform var(--transition),background var(--transition);
+    }
+    .btn-link:hover{ background:#86b5cc; transform:translateY(-2px) }
+
+    /* Responsive */
+    @media (max-width:900px){
+      .mi-div{ padding:18px }
+      .sidebar{ left:-340px }
+      .logo{ font-size:2.2rem }
+      .subtitle{ font-size:0.98rem }
     }
   </style>
 </head>
 <body>
-  <!-- Botón de menú hamburguesa -->
-  <button class="sidebar-toggle" id="sidebarToggle" title="Menú">
-    <svg class="icon" viewBox="0 0 32 32">
-      <rect y="6" width="32" height="4" rx="2"/>
-      <rect y="14" width="32" height="4" rx="2"/>
-      <rect y="22" width="32" height="4" rx="2"/>
-    </svg>
+
+  <!-- Branding: logo grande arriba y subtítulo centrado debajo -->
+  <div class="branding">
+    <div class="logo">EduPath</div>
+    <div class="subtitle">Repaso de Física y Química</div>
+  </div>
+
+  <!-- Sidebar toggle -->
+  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Abrir menú">
+    <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><rect y="6" width="32" height="4" rx="2"/><rect y="14" width="32" height="4" rx="2"/><rect y="22" width="32" height="4" rx="2"/></svg>
   </button>
-  <!-- Barra lateral -->
-  <nav class="sidebar" id="sidebar">
+
+  <!-- Sidebar -->
+  <nav id="sidebar" class="sidebar" aria-label="Navegación principal">
     <div class="sidebar-header">Menú</div>
-    <ul>
-      <li><a href="#">Inicio</a></li>
-      <li>Cursos<ul>
-          <li><a href="Quimica.html">Quimica</a></li>
-          <li><a href="Fisica.html">Fisica</a></li>
-          <li><a href="Recursos.html">Recursos</a></li>
+    <div class="sidebar-menu">
+      <div class="menu-section">
+        <ul>
+          <li><a href="#">Inicio</a></li>
+          <li>
+            <span class="menu-header">Cursos</span>
+            <ul>
+              <li><a href="Quimica.html">Química</a></li>
+              <li><a href="Fisica.html">Física</a></li>
+              <li><a href="Recursos.html">Recursos</a></li>
+            </ul>
+          </li>
         </ul>
-      </li>
-    </ul>
+      </div>
+      <div class="menu-footer">
+        <a href="sesion.html" class="logout-button">
+          <svg class="logout-icon" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16 17l5-5-5-5" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 12H9" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Cerrar Sesión
+        </a>
+      </div>
+    </div>
   </nav>
 
-  <!-- Encabezado personalizado -->
-  <header class="custom-header">
-    <h1>Repaso de Física y Química</h1>
-    <div style="display:flex;align-items:center;gap:12px">
-      <nav class="top-nav" aria-label="Navegación principal" style="display:flex;gap:12px">
-        <a href="sesion.html" class="reg-btn" aria-label="Inicio">Iniciar sesion</a>
-      </nav>
-      <button class="menu-icon" onclick="toggleNav()" aria-label="Abrir menú">☰</button>
-    </div>
-  </header>
+  <!-- Main content container -->
+  <div class="mi-div">
+    <main>
+      <h2>Bienvenido</h2>
+      <p>Esta página es tu centro de repaso para Física y Química: contenidos, ejemplos y recursos para practicar.</p>
 
-  <div class="logo">EduPath</div>
- 
-  <!-- Contenido principal -->
-  <main style="margin:30px 20px;">
-    <h2>Bienvenido</h2>
-    <p>
-      Esta página está destinada a ser tu centro de repaso para Física y Química. Aquí encontrarás explicaciones claras de conceptos fundamentales, fórmulas esenciales, ejemplos resueltos paso a paso y una selección de recursos (simuladores, videos y guías descargables) para practicar y profundizar.
-    </p>
+      <h2>¿Qué vas a aprender aquí?</h2>
+      <p>Bloques temáticos: mecánica, dinámica, energía, estructura atómica, enlaces, reacciones y recursos prácticos.</p>
 
-    <h2>¿Qué vas a aprender aquí?</h2>
-    <p>
-      El sitio está organizado por bloques temáticos que cubren los puntos más relevantes del currículo: mecánica, dinámica y energía en Física; estructura atómica, enlaces y reacciones en Química; y una sección de recursos para poner en práctica lo aprendido.
-    </p>
+      <h2>Cómo usar la página</h2>
+      <ol>
+        <li>Lee los resúmenes teóricos.</li>
+        <li>Trabaja los ejemplos y ejercicios paso a paso.</li>
+        <li>Usa simuladores y videos en Recursos.</li>
+      </ol>
 
-    <h2>Cómo usar esta página</h2>
-    <ol>
-      <li>Empieza por leer los resúmenes teóricos para comprender los conceptos básicos.</li>
-      <li>Consulta las fórmulas destacadas y memoriza las relaciones fundamentales (por ejemplo, movimiento, fuerzas, energía, ley de los gases, moles).</li>
-      <li>Trabaja los ejemplos resueltos paso a paso y luego intenta los ejercicios propuestos sin ver la solución.</li>
-      <li>Usa los simuladores y videos de la sección Recursos para visualizar fenómenos y reforzar la comprensión.</li>
-      <li>Si eres docente, descarga las guías y material de apoyo para preparar clases y evaluaciones.</li>
-    </ol>
+      <h2>Plan sugerido (4 semanas)</h2>
+      <ul>
+        <li><strong>Semana 1:</strong> Cinemática y dinámica.</li>
+        <li><strong>Semana 2:</strong> Energía, ondas y electricidad básica.</li>
+        <li><strong>Semana 3:</strong> Química: átomos, tabla periódica, enlaces.</li>
+        <li><strong>Semana 4:</strong> Reacciones, estequiometría y revisión.</li>
+      </ul>
 
-    <h2>Plan de estudio sugerido (4 semanas)</h2>
-    <p>Un plan práctico para organizar el repaso:</p>
-    <ul>
-      <li><strong>Semana 1</strong> — Fundamentos de Física: cinemática y dinámica, vectores y fórmulas básicas.</li>
-      <li><strong>Semana 2</strong> — Energía, trabajo, ondas y electricidad básica; problemas aplicados.</li>
-      <li><strong>Semana 3</strong> — Fundamentos de Química: estructura atómica, tabla periódica, enlaces y concepto de mol.</li>
-      <li><strong>Semana 4</strong> — Reacciones químicas, estequiometría, equilibrio y ácidos-bases; revisión y exámenes prácticos.</li>
-    </ul>
+      <h2>Recursos destacados</h2>
+      <p>En Recursos encontrarás simuladores (PhET), tabla periódica interactiva, videos y guías descargables.</p>
 
-    <h2>Consejos para resolver problemas</h2>
-    <ul>
-      <li>Identifica primero las magnitudes conocidas y la que se pide. Dibuja un esquema si aplica.</li>
-      <li>Escribe las ecuaciones relevantes y despeja la variable buscada antes de sustituir números.</li>
-      <li>Comprueba unidades y realiza conversiones (por ejemplo, gramos a kilogramos, cm a m) antes de calcular.</li>
-      <li>Revisa el resultado con estimaciones aproximadas para detectar errores groseros.</li>
-    </ul>
+      <h2>¿Necesitas ayuda?</h2>
+      <p>Usa la burbuja de contacto en la esquina inferior derecha para enviar dudas al formulario.</p>
+    </main>
+  </div>
 
-    <h2>Recursos destacados</h2>
-    <p>En la sección Recursos tienes enlaces a simuladores (PhET), una tabla periódica interactiva, playlists de video y guías para descargar. Empieza por los simuladores cuando quieras visualizar un proceso y usa las guías para repasar fórmulas y reglas de balanceo.</p>
+  <!-- Contact shortcut -->
+  <a id="contactBubble" class="contact-bubble" href="Frm.html" title="Contacto" aria-label="Contacto">💬</a>
 
-    <h2>¿Necesitas ayuda?</h2>
-    <p>Usa la burbuja de contacto en la esquina inferior derecha para enviarnos un mensaje o dirigirnos tus dudas al formulario de contacto. Si te has registrado, también puedes dejar consultas desde tu perfil.</p>
-  </main>
-
-  <!-- Contact bubble -->
-  <a id="contactBubble" class="contact-bubble" title="Contacto" href="Frm.html" aria-label="Contacto">💬</a>
+  <!-- Help button -->
+  <a href="manual.html" class="help-button" title="Ayuda" aria-label="Ver manual de usuario">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+      <line x1="12" y1="17" x2="12" y2="17"/>
+    </svg>
+    ¿Necesitas ayuda?
+  </a>
 
   <script>
-    // Sidebar toggle
-    const sidebarToggle = document.getElementById("sidebarToggle");
-    const sidebar = document.getElementById("sidebar");
-    sidebarToggle.onmouseover = () => sidebar.classList.add("open");
-    sidebar.onmouseleave = () => sidebar.classList.remove("open");
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
 
-    // Menú hamburguesa del header
-    function openNav() {
-      sidebar.classList.add("open");
+    function openNav(){ sidebar.classList.add('open') }
+    function closeNav(){ sidebar.classList.remove('open') }
+    function toggleNav(){ sidebar.classList.toggle('open') }
+
+    if (sidebarToggle && sidebar) {
+      sidebarToggle.addEventListener('mouseover', () => sidebar.classList.add('open'));
+      sidebar.addEventListener('mouseleave', () => sidebar.classList.remove('open'));
+      sidebarToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+      document.addEventListener('click', (e) => {
+        if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && window.innerWidth > 900) {
+          closeNav();
+        }
+      });
     }
-    function closeNav() {
-      sidebar.classList.remove("open");
+
+    // Observe sidebar class changes and toggle a body class so we can adjust the help button
+    if (sidebar) {
+      const sidebarObserver = new MutationObserver(() => {
+        document.body.classList.toggle('sidebar-open', sidebar.classList.contains('open'));
+      });
+      sidebarObserver.observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+      // set initial state
+      document.body.classList.toggle('sidebar-open', sidebar.classList.contains('open'));
     }
-    function toggleNav() {
-      if (sidebar.classList.contains("open")) {
-        closeNav();
-      } else {
-        openNav();
-      }
-    }
-    // También cierra el menú si se hace clic fuera del sidebar
-    document.addEventListener('click', function(e) {
-      if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && !e.target.classList.contains('menu-icon')) {
-        closeNav();
-      }
-    });
   </script>
-  
 </body>
 </html>

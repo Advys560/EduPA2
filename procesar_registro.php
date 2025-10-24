@@ -54,9 +54,11 @@ $stmt_check->close();
 $hash = password_hash($password, PASSWORD_DEFAULT);
 
 // Insertar en la base de datos
-$sql = "INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)";
+$rol = isset($_POST['rol']) ? $_POST['rol'] : 'usuario'; // Por defecto usuario
+
+$sql = "INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sss", $nombre, $email, $hash);
+$stmt->bind_param("ssss", $nombre, $email, $hash, $rol);
 
 if ($stmt->execute()) {
     // Redirigir a sesion.html si el registro fue exitoso
