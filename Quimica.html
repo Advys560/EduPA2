@@ -7,38 +7,58 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
+    /* Variables CSS reutilizables */
     :root {
-      --primary-color: #1a5a93;
-      --secondary-color: #0a4a73;
-      --accent-color: #0a3a53;
-      --background-gradient: linear-gradient(135deg, #f4f8fb 0%, #eaf6fb 100%);
-      --text-color: #1a5a93;
-      --white-color: #ffffff;
-      --shadow-color: rgba(26, 90, 147, 0.08);
-      --transition-speed: 0.3s;
+      --bg: #f6f9fb;
+      --card: #ffffff;
+      --text: #213041;
+      --muted: #6b7c8e;
+      --accent: #5b8fbf;
+      --accent-2: #8fb7db;
+      --danger: #e45757;
+      --shadow: 0 8px 30px rgba(33,48,65,0.06);
+      --glass: rgba(255,255,255,0.6);
+      --radius: 12px;
+      --gap: 18px;
+      --transition: 200ms ease;
     }
 
-    /* Reset / base */
+    /* RESET — elimina estilos por defecto */
     * { box-sizing: border-box; }
+    html, body { height: 100% }
     body {
-      font-family: 'Roboto', sans-serif;
       margin: 0;
-      padding: 0;
-      background: var(--background-gradient);
-      color: var(--text-color);
-      min-height: 100vh;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.5;
+      font-size: 16px;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Cabecera y logo */
+    .logo {
+      font-size: 2.8rem;
+      color: var(--accent);
+      text-align: center;
+      margin: calc(var(--gap) * 2) 0 var(--gap);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      position: relative;
     }
 
-    /* Header / logo */
-    .logo {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2.8rem;
-      color: var(--primary-color);
-      text-align: center;
-      margin: 32px 0 10px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-shadow: 0 2px 8px var(--shadow-color);
+    .logo::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: var(--accent);
+      margin: 8px auto 0;
+      border-radius: 2px;
     }
 
     /* Help button */
@@ -76,14 +96,26 @@
       transform: translateX(calc(var(--sidebar-width,260px) + 12px));
     }
 
-    /* Main container */
+    /* Contenedor principal */
     .mi-div {
-      padding: 32px;
       max-width: 1200px;
-      margin: 0 auto 48px;
-      background-color: var(--white-color);
-      border-radius: 18px;
-      box-shadow: 0 8px 32px var(--shadow-color);
+      margin: 0 auto var(--gap) * 2;
+      padding: calc(var(--gap) * 1.5);
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .mi-div::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(to right, var(--accent), var(--accent-2));
+      border-radius: var(--radius) var(--radius) 0 0;
     }
 
     h3 {
@@ -104,49 +136,82 @@
       align-items: start;
     }
 
-    /* Sidebar / índice */
+    /* Índice lateral */
     aside.side-index {
-      background: #eaf6fb;
-      border-radius: 8px;
-      padding: 18px 20px;
-      box-shadow: 0 1px 4px var(--shadow-color);
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      padding: var(--gap);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.8);
     }
-    aside.side-index h3 { color: var(--primary-color); margin: 0 0 10px; font-size: 1.05rem; }
-    aside.side-index ul { padding-left: 16px; margin: 0; }
-    aside.side-index ul li { margin-bottom: 10px; }
+    aside.side-index h3 { 
+      color: var(--accent); 
+      margin: 0 0 var(--gap); 
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    aside.side-index ul { 
+      padding-left: var(--gap);
+      margin: 0;
+      list-style: none;
+    }
+    aside.side-index ul li { 
+      margin-bottom: calc(var(--gap) * 0.6);
+    }
     aside.side-index ul li a {
-      color: var(--secondary-color);
+      color: var(--text);
       text-decoration: none;
       font-weight: 500;
-      font-family: 'Montserrat', sans-serif;
-      transition: color 0.15s;
+      transition: all var(--transition);
+      display: block;
+      padding: 4px 8px;
+      border-radius: 4px;
     }
     aside.side-index ul li a:hover {
-      color: var(--accent-color);
-      text-decoration: underline;
+      background: var(--accent);
+      color: var(--card);
+      transform: translateX(4px);
+      text-decoration: none;
     }
 
-    /* Content cards */
+    /* Tarjetas de contenido */
     .content.card {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px var(--shadow-color);
-      padding: 20px;
-      margin-bottom: 18px;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: calc(var(--gap) * 1.2);
+      margin-bottom: var(--gap);
+      border: 1px solid rgba(255,255,255,0.8);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .content.card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(33,48,65,0.1);
     }
     h2 {
-      color: var(--primary-color);
-      margin: 0 0 12px;
-      font-family: 'Montserrat', sans-serif;
+      color: var(--accent);
+      margin: 0 0 var(--gap);
+      font-weight: 600;
       font-size: 1.25rem;
-      border-bottom: 2px solid transparent;
-      padding-bottom: 6px;
+      position: relative;
+      padding-bottom: 8px;
+    }
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
     }
     p, ul, ol {
-      font-size: 1.02rem;
-      color: #222;
-      line-height: 1.5;
-      margin: 0 0 12px;
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0 0 var(--gap);
+      font-size: 1rem;
     }
     .exercise {
       background: #f4f8fb;
@@ -175,25 +240,27 @@
     }
 
     /* Buttons */
+    /* Botones */
     .btn-link {
-      padding: 10px 18px;
-      background-color: var(--secondary-color);
-      color: var(--white-color);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent);
+      color: var(--card);
       border: none;
-      border-radius: 22px;
+      border-radius: var(--radius);
       font-size: 0.95rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all var(--transition-speed);
       text-decoration: none;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-      display: inline-block;
-      box-shadow: 0 2px 8px var(--shadow-color);
+      transition: all var(--transition);
+      box-shadow: 0 4px 12px rgba(91,143,191,0.15);
     }
     .btn-link:hover {
-      background-color: var(--accent-color);
+      background: var(--accent-2);
       transform: translateY(-2px);
-      box-shadow: 0 4px 16px var(--shadow-color);
+      box-shadow: 0 8px 20px rgba(91,143,191,0.2);
     }
 
     /* Sidebar (slide) */
@@ -328,9 +395,8 @@
       .sidebar { left: -320px; }
     }
   </style>
-</head>
-
-<body class="repaso">
+<center></center>
+<center class="repaso">
   <!-- Botón de menú hamburguesa -->
   <button class="sidebar-toggle" id="sidebarToggle" title="Menú" aria-label="Abrir menú">
     <svg class="icon" viewBox="0 0 32 32" aria-hidden="true">
@@ -491,5 +557,13 @@
       document.body.classList.toggle('sidebar-open', sidebar.classList.contains('open'));
     }
   </script>
+  </center>
+
+  <div class="more-info-container">
+    <a href="mailto:soporte@edupath.com" class="more-info-button">
+      ¿Necesitas más información?
+    </a>
+  </div>
+
 </body>
 </html>

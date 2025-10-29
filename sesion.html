@@ -20,10 +20,42 @@
       flex: 1.5;
       background-color: white;
       display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 40px 0;
+      position: relative;
+    }
+    
+    .welcome-title {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 4rem;
+      font-weight: 700;
+      color: #111;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      animation: fadeInDown 1.2s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .buildings-container {
+      display: flex;
       justify-content: center;
       align-items: flex-end;
-      padding-bottom: 40px;
-      position: relative;
+      gap: 20px;
     }
 
     .building { width: 120px; border-radius: 15px; border: 3px solid #333;
@@ -46,19 +78,21 @@
     /* LADO DERECHO */
     .right-side {
       flex: 1;
+      background-color: #000;
       display: flex;
       justify-content: center;
       align-items: center;
+      color: white;
       padding: 36px;
     }
 
     .login-form {
       background-color: #111;
-      padding: 36px;
+      padding: 40px;
       border-radius: 12px;
-      width: 92%;
-      max-width: 420px;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.35);
+      width: 90%;
+      max-width: 480px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
       color: #fff;
       position: relative;
     }
@@ -147,15 +181,15 @@
     /* Botón de ayuda */
     .help-button {
       position: absolute;
-      top: 15px;
-      right: 15px;
-      width: 30px;
-      height: 30px;
+      top: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
       background: #ffffff;
       border: none;
       color: #111;
-      font-size: 16px;
+      font-size: 13px;
       font-weight: bold;
       display: flex;
       align-items: center;
@@ -163,14 +197,14 @@
       cursor: pointer;
       transition: all 0.3s ease;
       text-decoration: none;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
       z-index: 10;
     }
 
     .help-button:hover {
       background: #f0f0f0;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
     /* Responsive */
@@ -185,28 +219,31 @@
 
   <!-- LADO IZQUIERDO -->
   <div class="left-side">
-    <div class="building b1">
-      <div class="eyes">
-        <div class="eye"><div class="pupil"></div></div>
-        <div class="eye"><div class="pupil"></div></div>
+    <h1 class="welcome-title">Bienvenidos a EduPath</h1>
+    <div class="buildings-container">
+      <div class="building b1">
+        <div class="eyes">
+          <div class="eye"><div class="pupil"></div></div>
+          <div class="eye"><div class="pupil"></div></div>
+        </div>
+        <div class="mouth"></div>
       </div>
-      <div class="mouth"></div>
-    </div>
 
-    <div class="building b2">
-      <div class="eyes">
-        <div class="eye"><div class="pupil"></div></div>
-        <div class="eye"><div class="pupil"></div></div>
+      <div class="building b2">
+        <div class="eyes">
+          <div class="eye"><div class="pupil"></div></div>
+          <div class="eye"><div class="pupil"></div></div>
+        </div>
+        <div class="mouth"></div>
       </div>
-      <div class="mouth"></div>
-    </div>
 
-    <div class="building b3">
-      <div class="eyes">
-        <div class="eye"><div class="pupil"></div></div>
-        <div class="eye"><div class="pupil"></div></div>
+      <div class="building b3">
+        <div class="eyes">
+          <div class="eye"><div class="pupil"></div></div>
+          <div class="eye"><div class="pupil"></div></div>
+        </div>
+        <div class="mouth"></div>
       </div>
-      <div class="mouth"></div>
     </div>
   </div>
 

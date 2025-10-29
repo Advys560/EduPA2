@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Tabla Periódica — Proyecto Interactivo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f8fb;
+    --card:#ffffff;
+    --muted:#6b7280;
+    --gap:8px;
+    --cell-size:78px;
+    --radius:12px;
+    --shadow: 0 8px 24px rgba(12,18,30,0.06);
+
+    /* Pastel palette for categories */
+    --alkaline: #ffdfe0;
+    --alkaline-earth: #fff0d6;
+    --lanthanoid: #f2e7ff;
+    --actinoid: #fbecff;
+    --transition: #e3f7ff;
+    --post-transition: #eaffea;
+    --metalloid: #fff6d9;
+    --nonmetal: #e7fff0;
+    --halogen: #ffeef7;
+    --noble-gas: #e9eeff;
+    --unknown: #f3f3f5;
+  }
+
+  html,body{height:100%; margin:0; font-family:Inter,system-ui,Arial,Helvetica,sans-serif; background:var(--bg); color:#0f172a;}
+  header{padding:18px 26px;}
+  .title{font-weight:700; font-size:19px; margin-bottom:4px;}
+  .subtitle{color:var(--muted); font-size:13px;}
+
+  .container{display:flex; gap:18px; padding:18px 26px; align-items:flex-start; flex-wrap:wrap;}
+
+  /* Periodic table grid */
+  .ptable {
+    display:grid;
+    grid-template-columns: repeat(18, var(--cell-size));
+    grid-auto-rows: var(--cell-size);
+    gap: var(--gap);
+    width: calc(var(--cell-size) * 18 + var(--gap) * 17);
+    max-width:100%;
+  }
+
+  .elem{
+    background:var(--card);
+    border-radius:10px;
+    box-shadow: var(--shadow);
+    padding:8px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    cursor:pointer;
+    transition: transform .12s ease, box-shadow .12s ease;
+    user-select:none;
+    position:relative;
+  }
+  .elem:hover{ transform: translateY(-6px); box-shadow: 0 16px 36px rgba(12,18,30,0.08); }
+  .num{font-size:12px; color:var(--muted);}
+  .symbol{font-weight:700; font-size:20px;}
+  .name{font-size:12px; color:var(--muted);}
+  .mass{font-size:11px; color:var(--muted); text-align:right;}
+
+  /* Category bg classes (light pastel fills) */
+  .cat-alkaline { background: var(--alkaline); }
+  .cat-alkaline-earth { background: var(--alkaline-earth); }
+  .cat-lanthanoid { background: var(--lanthanoid); }
+  .cat-actinoid { background: var(--actinoid); }
+  .cat-transition { background: var(--transition); }
+  .cat-post-transition { background: var(--post-transition); }
+  .cat-metalloid { background: var(--metalloid); }
+  .cat-nonmetal { background: var(--nonmetal); }
+  .cat-halogen { background: var(--halogen); }
+  .cat-noble-gas { background: var(--noble-gas); }
+  .cat-unknown { background: var(--unknown); }
+
+  /* Tooltip (flotante) */
+  .tooltip {
+    position:absolute;
+    min-width:220px;
+    max-width:320px;
+    background:var(--card);
+    border-radius:10px;
+    box-shadow: 0 12px 30px rgba(12,18,30,0.12);
+    padding:12px;
+    z-index:9999;
+    transform-origin: left top;
+    font-size:13px;
+  }
+  .tooltip.hidden{ display:none; }
+  .tooltip .close-btn{
+    position:absolute;
+    top:8px; right:8px;
+    background:transparent; border:0; font-size:14px; cursor:pointer; color:var(--muted);
+  }
+  .tooltip .symbol { font-size:28px; font-weight:700; }
+  .tooltip .title-row{ display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .tooltip .meta{ color:var(--muted); font-size:12px; margin-top:6px; }
+  .tooltip .props{ margin-top:10px; display:grid; gap:6px; }
+  .prop{ display:flex; justify-content:space-between; }
+
+  /* small screens adjustments */
+  @media (max-width:980px){ :root{ --cell-size:62px; } }
+  @media (max-width:760px){
+    .container{ padding:12px; }
+    .ptable{ width:100%; grid-template-columns: repeat(9, 1fr); grid-auto-rows: calc((100vw - 48px) / 9); }
+  }
+
+  /* helper legend */
+  .legend{ margin-top:10px; color:var(--muted); font-size:13px; display:flex; gap:8px; flex-wrap:wrap;}
+  .legend .sw{ width:12px; height:12px; border-radius:3px; display:inline-block; vertical-align:middle; margin-right:6px; }
+
+  /* small note */
+  .note{ margin-top:10px; color:var(--muted); font-size:12px; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="title">Tabla Periódica — Proyecto Interactivo</div>
+    <div class="subtitle">Haz clic en un elemento para ver la tarjeta flotante. Cierra con ✕ o haciendo clic fuera.</div>
+  </header>
+
+  <div class="container">
+    <div id="ptable" class="ptable" role="grid" aria-label="Tabla periódica"></div>
+    <div style="min-width:220px; max-width:260px;">
+      <div style="background:var(--card); border-radius:12px; padding:12px; box-shadow:var(--shadow);">
+        <div style="font-weight:700; margin-bottom:6px;">Leyenda</div>
+        <div class="legend" id="legend"></div>
+        <div class="note">Tarjeta flotante con borde según categoría del elemento.</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* Datos (1-118) en español. Campos esenciales: number, symbol, name, mass, category, state, period, group, electron, year */
+const elements = [
+{number:1,symbol:"H",name:"Hidrógeno",mass:"1.008",category:"nonmetal",state:"Gas",period:1,group:1,electron:"1s1",year:"1766"},
+{number:2,symbol:"He",name:"Helio",mass:"4.0026",category:"noble-gas",state:"Gas",period:1,group:18,electron:"1s2",year:"1895"},
+{number:3,symbol:"Li",name:"Litio",mass:"6.94",category:"alkaline",state:"Sólido",period:2,group:1,electron:"[He] 2s1",year:"1817"},
+{number:4,symbol:"Be",name:"Berilio",mass:"9.0122",category:"alkaline-earth",state:"Sólido",period:2,group:2,electron:"[He] 2s2",year:"1798"},
+{number:5,symbol:"B",name:"Boro",mass:"10.81",category:"metalloid",state:"Sólido",period:2,group:13,electron:"[He] 2s2 2p1",year:"1808"},
+{number:6,symbol:"C",name:"Carbono",mass:"12.011",category:"nonmetal",state:"Sólido",period:2,group:14,electron:"[He] 2s2 2p2",year:"Antigüedad"},
+{number:7,symbol:"N",name:"Nitrógeno",mass:"14.007",category:"nonmetal",state:"Gas",period:2,group:15,electron:"[He] 2s2 2p3",year:"1772"},
+{number:8,symbol:"O",name:"Oxígeno",mass:"15.999",category:"nonmetal",state:"Gas",period:2,group:16,electron:"[He] 2s2 2p4",year:"1774"},
+{number:9,symbol:"F",name:"Flúor",mass:"18.998",category:"halogen",state:"Gas",period:2,group:17,electron:"[He] 2s2 2p5",year:"1810"},
+{number:10,symbol:"Ne",name:"Neón",mass:"20.180",category:"noble-gas",state:"Gas",period:2,group:18,electron:"[He] 2s2 2p6",year:"1898"},
+{number:11,symbol:"Na",name:"Sodio",mass:"22.990",category:"alkaline",state:"Sólido",period:3,group:1,electron:"[Ne] 3s1",year:"1807"},
+{number:12,symbol:"Mg",name:"Magnesio",mass:"24.305",category:"alkaline-earth",state:"Sólido",period:3,group:2,electron:"[Ne] 3s2",year:"1755"},
+{number:13,symbol:"Al",name:"Aluminio",mass:"26.982",category:"post-transition",state:"Sólido",period:3,group:13,electron:"[Ne] 3s2 3p1",year:"1825"},
+{number:14,symbol:"Si",name:"Silicio",mass:"28.085",category:"metalloid",state:"Sólido",period:3,group:14,electron:"[Ne] 3s2 3p2",year:"1824"},
+{number:15,symbol:"P",name:"Fósforo",mass:"30.974",category:"nonmetal",state:"Sólido",period:3,group:15,electron:"[Ne] 3s2 3p3",year:"1669"},
+{number:16,symbol:"S",name:"Azufre",mass:"32.06",category:"nonmetal",state:"Sólido",period:3,group:16,electron:"[Ne] 3s2 3p4",year:"Antigüedad"},
+{number:17,symbol:"Cl",name:"Cloro",mass:"35.45",category:"halogen",state:"Gas",period:3,group:17,electron:"[Ne] 3s2 3p5",year:"1774"},
+{number:18,symbol:"Ar",name:"Argón",mass:"39.948",category:"noble-gas",state:"Gas",period:3,group:18,electron:"[Ne] 3s2 3p6",year:"1894"},
+{number:19,symbol:"K",name:"Potasio",mass:"39.098",category:"alkaline",state:"Sólido",period:4,group:1,electron:"[Ar] 4s1",year:"1807"},
+{number:20,symbol:"Ca",name:"Calcio",mass:"40.078",category:"alkaline-earth",state:"Sólido",period:4,group:2,electron:"[Ar] 4s2",year:"1808"},
+{number:21,symbol:"Sc",name:"Escandio",mass:"44.956",category:"transition",state:"Sólido",period:4,group:3,electron:"[Ar] 3d1 4s2",year:"1879"},
+{number:22,symbol:"Ti",name:"Titanio",mass:"47.867",category:"transition",state:"Sólido",period:4,group:4,electron:"[Ar] 3d2 4s2",year:"1791"},
+{number:23,symbol:"V",name:"Vanadio",mass:"50.942",category:"transition",state:"Sólido",period:4,group:5,electron:"[Ar] 3d3 4s2",year:"1801"},
+{number:24,symbol:"Cr",name:"Cromo",mass:"51.996",category:"transition",state:"Sólido",period:4,group:6,electron:"[Ar] 3d5 4s1",year:"1797"},
+{number:25,symbol:"Mn",name:"Manganeso",mass:"54.938",category:"transition",state:"Sólido",period:4,group:7,electron:"[Ar] 3d5 4s2",year:"1774"},
+{number:26,symbol:"Fe",name:"Hierro",mass:"55.845",category:"transition",state:"Sólido",period:4,group:8,electron:"[Ar] 3d6 4s2",year:"Antigüedad"},
+{number:27,symbol:"Co",name:"Cobalto",mass:"58.933",category:"transition",state:"Sólido",period:4,group:9,electron:"[Ar] 3d7 4s2",year:"1735"},
+{number:28,symbol:"Ni",name:"Níquel",mass:"58.693",category:"transition",state:"Sólido",period:4,group:10,electron:"[Ar] 3d8 4s2",year:"1751"},
+{number:29,symbol:"Cu",name:"Cobre",mass:"63.546",category:"transition",state:"Sólido",period:4,group:11,electron:"[Ar] 3d10 4s1",year:"Antigüedad"},
+{number:30,symbol:"Zn",name:"Cinc",mass:"65.38",category:"transition",state:"Sólido",period:4,group:12,electron:"[Ar] 3d10 4s2",year:"Antigüedad"},
+{number:31,symbol:"Ga",name:"Galio",mass:"69.723",category:"post-transition",state:"Sólido",period:4,group:13,electron:"[Ar] 3d10 4s2 4p1",year:"1875"},
+{number:32,symbol:"Ge",name:"Germanio",mass:"72.630",category:"metalloid",state:"Sólido",period:4,group:14,electron:"[Ar] 3d10 4s2 4p2",year:"1886"},
+{number:33,symbol:"As",name:"Arsénico",mass:"74.922",category:"metalloid",state:"Sólido",period:4,group:15,electron:"[Ar] 3d10 4s2 4p3",year:"Antigüedad"},
+{number:34,symbol:"Se",name:"Selenio",mass:"78.971",category:"nonmetal",state:"Sólido",period:4,group:16,electron:"[Ar] 3d10 4s2 4p4",year:"1817"},
+{number:35,symbol:"Br",name:"Bromo",mass:"79.904",category:"halogen",state:"Líquido",period:4,group:17,electron:"[Ar] 3d10 4s2 4p5",year:"1826"},
+{number:36,symbol:"Kr",name:"Kriptón",mass:"83.798",category:"noble-gas",state:"Gas",period:4,group:18,electron:"[Ar] 3d10 4s2 4p6",year:"1898"},
+{number:37,symbol:"Rb",name:"Rubidio",mass:"85.468",category:"alkaline",state:"Sólido",period:5,group:1,electron:"[Kr] 5s1",year:"1861"},
+{number:38,symbol:"Sr",name:"Estroncio",mass:"87.62",category:"alkaline-earth",state:"Sólido",period:5,group:2,electron:"[Kr] 5s2",year:"1790"},
+{number:39,symbol:"Y",name:"Itrio",mass:"88.906",category:"transition",state:"Sólido",period:5,group:3,electron:"[Kr] 4d1 5s2",year:"1794"},
+{number:40,symbol:"Zr",name:"Circonio",mass:"91.224",category:"transition",state:"Sólido",period:5,group:4,electron:"[Kr] 4d2 5s2",year:"1789"},
+{number:41,symbol:"Nb",name:"Niobio",mass:"92.906",category:"transition",state:"Sólido",period:5,group:5,electron:"[Kr] 4d4 5s1",year:"1801"},
+{number:42,symbol:"Mo",name:"Molibdeno",mass:"95.95",category:"transition",state:"Sólido",period:5,group:6,electron:"[Kr] 4d5 5s1",year:"1778"},
+{number:43,symbol:"Tc",name:"Tecnecio",mass:"98.0",category:"transition",state:"Sólido (radioactivo)",period:5,group:7,electron:"[Kr] 4d5 5s2",year:"1937"},
+{number:44,symbol:"Ru",name:"Rutenio",mass:"101.07",category:"transition",state:"Sólido",period:5,group:8,electron:"[Kr] 4d7 5s1",year:"1844"},
+{number:45,symbol:"Rh",name:"Rodio",mass:"102.91",category:"transition",state:"Sólido",period:5,group:9,electron:"[Kr] 4d8 5s1",year:"1803"},
+{number:46,symbol:"Pd",name:"Paladio",mass:"106.42",category:"transition",state:"Sólido",period:5,group:10,electron:"[Kr] 4d10",year:"1803"},
+{number:47,symbol:"Ag",name:"Plata",mass:"107.87",category:"transition",state:"Sólido",period:5,group:11,electron:"[Kr] 4d10 5s1",year:"Antigüedad"},
+{number:48,symbol:"Cd",name:"Cadmio",mass:"112.41",category:"transition",state:"Sólido",period:5,group:12,electron:"[Kr] 4d10 5s2",year:"1817"},
+{number:49,symbol:"In",name:"Indio",mass:"114.82",category:"post-transition",state:"Sólido",period:5,group:13,electron:"[Kr] 4d10 5s2 5p1",year:"1863"},
+{number:50,symbol:"Sn",name:"Estaño",mass:"118.71",category:"post-transition",state:"Sólido",period:5,group:14,electron:"[Kr] 4d10 5s2 5p2",year:"Antigüedad"},
+{number:51,symbol:"Sb",name:"Antimonio",mass:"121.76",category:"metalloid",state:"Sólido",period:5,group:15,electron:"[Kr] 4d10 5s2 5p3",year:"Antigüedad"},
+{number:52,symbol:"Te",name:"Telurio",mass:"127.60",category:"metalloid",state:"Sólido",period:5,group:16,electron:"[Kr] 4d10 5s2 5p4",year:"1798"},
+{number:53,symbol:"I",name:"Yodo",mass:"126.90",category:"halogen",state:"Sólido",period:5,group:17,electron:"[Kr] 4d10 5s2 5p5",year:"1811"},
+{number:54,symbol:"Xe",name:"Xenón",mass:"131.29",category:"noble-gas",state:"Gas",period:5,group:18,electron:"[Kr] 4d10 5s2 5p6",year:"1898"},
+{number:55,symbol:"Cs",name:"Cesio",mass:"132.91",category:"alkaline",state:"Sólido",period:6,group:1,electron:"[Xe] 6s1",year:"1860"},
+{number:56,symbol:"Ba",name:"Bario",mass:"137.33",category:"alkaline-earth",state:"Sólido",period:6,group:2,electron:"[Xe] 6s2",year:"1808"},
+{number:57,symbol:"La",name:"Lantano",mass:"138.91",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 5d1 6s2",year:"1839"},
+{number:58,symbol:"Ce",name:"Cerio",mass:"140.12",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 4f1 5d1 6s2",year:"1803"},
+{number:59,symbol:"Pr",name:"Praseodimio",mass:"140.91",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 4f3 6s2",year:"1885"},
+{number:60,symbol:"Nd",name:"Neodimio",mass:"144.24",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 4f4 6s2",year:"1885"},
+{number:61,symbol:"Pm",name:"Prometio",mass:"145",category:"lanthanoid",state:"Sólido (radioactivo)",period:6,group:3,electron:"[Xe] 4f5 6s2",year:"1945"},
+{number:62,symbol:"Sm",name:"Samario",mass:"150.36",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 4f6 6s2",year:"1879"},
+{number:63,symbol:"Eu",name:"Europio",mass:"151.96",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 4f7 6s2",year:"1901"},
+{number:64,symbol:"Gd",name:"Gadolinio",mass:"157.25",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 4f7 5d1 6s2",year:"1880"},
+{number:65,symbol:"Tb",name:"Terbio",mass:"158.93",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 4f9 6s2",year:"1843"},
+{number:66,symbol:"Dy",name:"Disprosio",mass:"162.50",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 4f10 6s2",year:"1886"},
+{number:67,symbol:"Ho",name:"Holmio",mass:"164.93",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 4f11 6s2",year:"1878"},
+{number:68,symbol:"Er",name:"Erbio",mass:"167.26",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 4f12 6s2",year:"1843"},
+{number:69,symbol:"Tm",name:"Tulio",mass:"168.93",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 4f13 6s2",year:"1879"},
+{number:70,symbol:"Yb",name:"Iterbio",mass:"173.05",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 4f14 6s2",year:"1878"},
+{number:71,symbol:"Lu",name:"Lutecio",mass:"174.97",category:"lanthanoid",state:"Sólido",period:6,group:3,electron:"[Xe] 4f14 5d1 6s2",year:"1907"},
+{number:72,symbol:"Hf",name:"Hafnio",mass:"178.49",category:"transition",state:"Sólido",period:6,group:4,electron:"[Xe] 4f14 5d2 6s2",year:"1923"},
+{number:73,symbol:"Ta",name:"Tantalio",mass:"180.95",category:"transition",state:"Sólido",period:6,group:5,electron:"[Xe] 4f14 5d3 6s2",year:"1802"},
+{number:74,symbol:"W",name:"Wolframio",mass:"183.84",category:"transition",state:"Sólido",period:6,group:6,electron:"[Xe] 4f14 5d4 6s2",year:"1783"},
+{number:75,symbol:"Re",name:"Renio",mass:"186.21",category:"transition",state:"Sólido",period:6,group:7,electron:"[Xe] 4f14 5d5 6s2",year:"1925"},
+{number:76,symbol:"Os",name:"Osmio",mass:"190.23",category:"transition",state:"Sólido",period:6,group:8,electron:"[Xe] 4f14 5d6 6s2",year:"1803"},
+{number:77,symbol:"Ir",name:"Iridio",mass:"192.22",category:"transition",state:"Sólido",period:6,group:9,electron:"[Xe] 4f14 5d7 6s2",year:"1803"},
+{number:78,symbol:"Pt",name:"Platino",mass:"195.08",category:"transition",state:"Sólido",period:6,group:10,electron:"[Xe] 4f14 5d9 6s1",year:"1735"},
+{number:79,symbol:"Au",name:"Oro",mass:"196.97",category:"transition",state:"Sólido",period:6,group:11,electron:"[Xe] 4f14 5d10 6s1",year:"Antigüedad"},
+{number:80,symbol:"Hg",name:"Mercurio",mass:"200.59",category:"transition",state:"Líquido",period:6,group:12,electron:"[Xe] 4f14 5d10 6s2",year:"Antigüedad"},
+{number:81,symbol:"Tl",name:"Talio",mass:"204.38",category:"post-transition",state:"Sólido",period:6,group:13,electron:"[Xe] 4f14 5d10 6s2 6p1",year:"1861"},
+{number:82,symbol:"Pb",name:"Plomo",mass:"207.2",category:"post-transition",state:"Sólido",period:6,group:14,electron:"[Xe] 4f14 5d10 6s2 6p2",year:"Antigüedad"},
+{number:83,symbol:"Bi",name:"Bismuto",mass:"208.98",category:"post-transition",state:"Sólido",period:6,group:15,electron:"[Xe] 4f14 5d10 6s2 6p3",year:"Antigüedad"},
+{number:84,symbol:"Po",name:"Polonio",mass:"209",category:"post-transition",state:"Sólido (radioactivo)",period:6,group:16,electron:"[Xe] 4f14 5d10 6s2 6p4",year:"1898"},
+{number:85,symbol:"At",name:"Astato",mass:"210",category:"halogen",state:"Sólido (radioactivo)",period:6,group:17,electron:"[Xe] 4f14 5d10 6s2 6p5",year:"1940"},
+{number:86,symbol:"Rn",name:"Radón",mass:"222",category:"noble-gas",state:"Gas (radioactivo)",period:6,group:18,electron:"[Xe] 4f14 5d10 6s2 6p6",year:"1900"},
+{number:87,symbol:"Fr",name:"Francio",mass:"223",category:"alkaline",state:"Sólido (radioactivo)",period:7,group:1,electron:"[Rn] 7s1",year:"1939"},
+{number:88,symbol:"Ra",name:"Radio",mass:"226",category:"alkaline-earth",state:"Sólido (radioactivo)",period:7,group:2,electron:"[Rn] 7s2",year:"1898"},
+{number:89,symbol:"Ac",name:"Actinio",mass:"227",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 6d1 7s2",year:"1899"},
+{number:90,symbol:"Th",name:"Torio",mass:"232.04",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 6d2 7s2",year:"1829"},
+{number:91,symbol:"Pa",name:"Protactinio",mass:"231.04",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 5f2 6d1 7s2",year:"1913"},
+{number:92,symbol:"U",name:"Uranio",mass:"238.03",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 5f3 6d1 7s2",year:"1789"},
+{number:93,symbol:"Np",name:"Neptunio",mass:"237",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 5f4 6d1 7s2",year:"1940"},
+{number:94,symbol:"Pu",name:"Plutonio",mass:"244",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 5f6 7s2",year:"1940"},
+{number:95,symbol:"Am",name:"Americio",mass:"243",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 5f7 7s2",year:"1944"},
+{number:96,symbol:"Cm",name:"Curio",mass:"247",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 5f7 6d1 7s2",year:"1944"},
+{number:97,symbol:"Bk",name:"Berkelio",mass:"247",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 5f9 7s2",year:"1949"},
+{number:98,symbol:"Cf",name:"Californio",mass:"251",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 5f10 7s2",year:"1950"},
+{number:99,symbol:"Es",name:"Einsteinio",mass:"252",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 5f11 7s2",year:"1952"},
+{number:100,symbol:"Fm",name:"Fermio",mass:"257",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 5f12 7s2",year:"1952"},
+{number:101,symbol:"Md",name:"Mendelevio",mass:"258",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 5f13 7s2",year:"1955"},
+{number:102,symbol:"No",name:"Nobelio",mass:"259",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 5f14 7s2",year:"1958"},
+{number:103,symbol:"Lr",name:"Lawrencio",mass:"266",category:"actinoid",state:"Sólido (radioactivo)",period:7,group:3,electron:"[Rn] 5f14 7s2 7p1?",year:"1961"},
+{number:104,symbol:"Rf",name:"Rutherfordio",mass:"267",category:"transition",state:"Sólido (sintético)",period:7,group:4,electron:"[Rn] 5f14 6d2 7s2",year:"1964"},
+{number:105,symbol:"Db",name:"Dubnio",mass:"268",category:"transition",state:"Sólido (sintético)",period:7,group:5,electron:"unknown",year:"1967"},
+{number:106,symbol:"Sg",name:"Seaborgio",mass:"269",category:"transition",state:"Sólido (sintético)",period:7,group:6,electron:"unknown",year:"1974"},
+{number:107,symbol:"Bh",name:"Bohrio",mass:"270",category:"transition",state:"Sólido (sintético)",period:7,group:7,electron:"unknown",year:"1981"},
+{number:108,symbol:"Hs",name:"Hassio",mass:"269",category:"transition",state:"Sólido (sintético)",period:7,group:8,electron:"unknown",year:"1984"},
+{number:109,symbol:"Mt",name:"Meitnerio",mass:"278",category:"transition",state:"Sólido (sintético)",period:7,group:9,electron:"unknown",year:"1982"},
+{number:110,symbol:"Ds",name:"Darmstadtio",mass:"281",category:"transition",state:"Sólido (sintético)",period:7,group:10,electron:"unknown",year:"1994"},
+{number:111,symbol:"Rg",name:"Roentgenio",mass:"282",category:"transition",state:"Sólido (sintético)",period:7,group:11,electron:"unknown",year:"1994"},
+{number:112,symbol:"Cn",name:"Copernicio",mass:"285",category:"transition",state:"Sólido (sintético)",period:7,group:12,electron:"unknown",year:"1996"},
+{number:113,symbol:"Nh",name:"Nihonio",mass:"286",category:"post-transition",state:"Sólido (sintético)",period:7,group:13,electron:"unknown",year:"2004"},
+{number:114,symbol:"Fl",name:"Flerovio",mass:"289",category:"post-transition",state:"Sólido (sintético)",period:7,group:14,electron:"unknown",year:"1998"},
+{number:115,symbol:"Mc",name:"Moscovio",mass:"288",category:"post-transition",state:"Sólido (sintético)",period:7,group:15,electron:"unknown",year:"2003"},
+{number:116,symbol:"Lv",name:"Livermorio",mass:"293",category:"post-transition",state:"Sólido (sintético)",period:7,group:16,electron:"unknown",year:"2000"},
+{number:117,symbol:"Ts",name:"Tennessino",mass:"294",category:"halogen",state:"Sólido (sintético)",period:7,group:17,electron:"unknown",year:"2010"},
+{number:118,symbol:"Og",name:"Oganesón",mass:"294",category:"noble-gas",state:"Sólido (sintético)",period:7,group:18,electron:"unknown",year:"2002"}
+];
+
+/* Map category slug -> label (es) and class */
+const categoryLabels = {
+  "alkaline":"Alcalinos",
+  "alkaline-earth":"Alcalinotérreos",
+  "lanthanoid":"Lantánidos",
+  "actinoid":"Actínidos",
+  "transition":"Metales de transición",
+  "post-transition":"Metales post-transición",
+  "metalloid":"Metaloides",
+  "nonmetal":"No metales",
+  "halogen":"Halógenos",
+  "noble-gas":"Gases nobles",
+  "unknown":"Desconocido"
+};
+const categoryClass = {
+  "alkaline":"cat-alkaline",
+  "alkaline-earth":"cat-alkaline-earth",
+  "lanthanoid":"cat-lanthanoid",
+  "actinoid":"cat-actinoid",
+  "transition":"cat-transition",
+  "post-transition":"cat-post-transition",
+  "metalloid":"cat-metalloid",
+  "nonmetal":"cat-nonmetal",
+  "halogen":"cat-halogen",
+  "noble-gas":"cat-noble-gas",
+  "unknown":"cat-unknown"
+};
+
+/* color for tooltip border per category (matching pastel tone) */
+const categoryBorderColor = {
+  "alkaline":"#ffbfc1",
+  "alkaline-earth":"#ffe3b8",
+  "lanthanoid":"#e6dbff",
+  "actinoid":"#f7e6ff",
+  "transition":"#cfeeff",
+  "post-transition":"#e7ffd8",
+  "metalloid":"#fff7c9",
+  "nonmetal":"#e8ffe9",
+  "halogen":"#ffe6f2",
+  "noble-gas":"#e6ebff",
+  "unknown":"#ececec"
+};
+
+/* Build legend */
+(function buildLegend(){
+  const legend = document.getElementById('legend');
+  for(const key in categoryLabels){
+    const label = categoryLabels[key];
+    const sw = document.createElement('span');
+    sw.className = 'sw ' + (categoryClass[key] || 'cat-unknown');
+    sw.style.border = '1px solid rgba(0,0,0,0.04)';
+    const div = document.createElement('div');
+    div.style.display='flex'; div.style.alignItems='center'; div.style.gap='8px';
+    const spanLabel = document.createElement('span');
+    spanLabel.textContent = label;
+    spanLabel.style.color = 'var(--muted)';
+    spanLabel.style.fontSize = '13px';
+    div.appendChild(sw); div.appendChild(spanLabel);
+    legend.appendChild(div);
+  }
+})();
+
+/* Create cells in grid */
+const ptable = document.getElementById('ptable');
+
+function createCells(){
+  elements.forEach(el => {
+    const cell = document.createElement('div');
+    cell.className = 'elem';
+    const catCls = categoryClass[el.category] || 'cat-unknown';
+    cell.classList.add(catCls);
+
+    cell.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div class="num">${el.number}</div>
+        <div class="mass">${el.mass}</div>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:flex-start; margin-top:6px;">
+        <div class="symbol">${el.symbol}</div>
+        <div class="name">${el.name}</div>
+      </div>
+    `;
+
+    // Position in grid: group => column, period => row.
+    let col = el.group || 18;
+    let row = el.period || 1;
+
+    // Place lanthanoids and actinoids in separate rows (8 and 9)
+    if(el.number >= 57 && el.number <= 71){
+      row = 8;
+      col = 3 + (el.number - 57);
+    }
+    if(el.number >= 89 && el.number <= 103){
+      row = 9;
+      col = 3 + (el.number - 89);
+    }
+
+    cell.style.gridColumnStart = col;
+    cell.style.gridRowStart = row;
+
+    // Click to show tooltip
+    cell.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      showTooltipForElement(el, cell);
+    });
+
+    // keyboard accessible
+    cell.tabIndex = 0;
+    cell.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showTooltipForElement(el, cell); }
+    });
+
+    ptable.appendChild(cell);
+  });
+}
+createCells();
+
+/* Tooltip management */
+let currentTooltip = null;
+
+function createTooltip(el){
+  const tip = document.createElement('div');
+  tip.className = 'tooltip';
+  tip.innerHTML = `
+    <button class="close-btn" aria-label="Cerrar">✕</button>
+    <div class="title-row">
+      <div>
+        <div class="symbol">${el.symbol}</div>
+        <div style="font-weight:600; font-size:14px; margin-top:4px;">${el.name}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="color:var(--muted); font-size:12px;">N.º ${el.number}</div>
+        <div style="color:var(--muted); font-size:12px; margin-top:6px;">Masa: ${el.mass}</div>
+      </div>
+    </div>
+    <div class="props">
+      <div class="prop"><div>Categoría</div><div style="color:var(--muted)">${categoryLabels[el.category] || 'Desconocido'}</div></div>
+      <div class="prop"><div>Estado</div><div style="color:var(--muted)">${el.state || '-'}</div></div>
+      <div class="prop"><div>Periodo</div><div style="color:var(--muted)">${el.period || '-'}</div></div>
+      <div class="prop"><div>Grupo</div><div style="color:var(--muted)">${el.group || '-'}</div></div>
+      <div class="prop"><div>Configuración</div><div style="color:var(--muted)">${el.electron || '-'}</div></div>
+      <div class="prop"><div>Año</div><div style="color:var(--muted)">${el.year || '-'}</div></div>
+    </div>
+    <div style="height:6px"></div>
+    <div style="font-size:11px; color:var(--muted)">Nota: masas representativas.</div>
+  `;
+  // close button
+  tip.querySelector('.close-btn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    hideTooltip();
+  });
+  // stop clicks inside tooltip from closing via outside click
+  tip.addEventListener('click', (e) => e.stopPropagation());
+  document.body.appendChild(tip);
+  return tip;
+}
+
+function showTooltipForElement(el, cellElement){
+  // Remove existing
+  hideTooltip();
+
+  const tip = createTooltip(el);
+  currentTooltip = tip;
+
+  // border color based on category
+  const border = categoryBorderColor[el.category] || categoryBorderColor['unknown'];
+  tip.style.border = `2px solid ${border}`;
+
+  // position: compute bounding rect of cellElement relative to viewport
+  const rect = cellElement.getBoundingClientRect();
+  const tipRectEstimate = { width: Math.min(320, Math.max(220, rect.width * 3)), height: 180 }; // estimate
+  // default position: right of element, centered vertically
+  let left = rect.right + 10;
+  let top = rect.top + (rect.height / 2) - (tipRectEstimate.height / 2);
+
+  // if overflow right, place to left
+  const viewportW = window.innerWidth;
+  const viewportH = window.innerHeight;
+  if(left + tipRectEstimate.width + 12 > viewportW){
+    left = rect.left - tipRectEstimate.width - 10;
+  }
+  // if left too small, clamp to 8px
+  if(left < 8) left = 8;
+
+  // if top overflow top or bottom, clamp
+  if(top < 8) top = 8;
+  if(top + tipRectEstimate.height + 12 > viewportH) top = Math.max(8, viewportH - tipRectEstimate.height - 12);
+
+  // apply
+  tip.style.left = left + window.scrollX + 'px';
+  tip.style.top = top + window.scrollY + 'px';
+
+  // small entrance animation
+  tip.style.opacity = 0;
+  tip.style.transform = 'translateY(-6px)';
+  requestAnimationFrame(() => {
+    tip.style.transition = 'opacity .18s ease, transform .18s ease';
+    tip.style.opacity = 1;
+    tip.style.transform = 'translateY(0)';
+  });
+
+  // close on outside click
+  setTimeout(() => { // slight delay so the immediate click doesn't close it
+    window.addEventListener('click', outsideClickHandler);
+    window.addEventListener('keydown', escapeHandler);
+  }, 0);
+}
+
+function hideTooltip(){
+  if(!currentTooltip) return;
+  const tip = currentTooltip;
+  tip.style.opacity = 0;
+  tip.style.transform = 'translateY(-6px)';
+  // remove listeners
+  window.removeEventListener('click', outsideClickHandler);
+  window.removeEventListener('keydown', escapeHandler);
+  setTimeout(()=> {
+    if(tip && tip.parentElement) tip.parentElement.removeChild(tip);
+  }, 180);
+  currentTooltip = null;
+}
+
+function outsideClickHandler(e){
+  // if click outside tooltip -> close
+  if(currentTooltip && !currentTooltip.contains(e.target)) hideTooltip();
+}
+
+function escapeHandler(e){
+  if(e.key === 'Escape') hideTooltip();
+}
+
+/* Accessibility: close tooltip on resize/scroll to avoid misplacement */
+window.addEventListener('resize', hideTooltip);
+window.addEventListener('scroll', hideTooltip, true);
+
+</script>
+</body>
+</html>

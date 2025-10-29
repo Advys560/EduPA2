@@ -25,10 +25,42 @@
       flex: 1.5;
       background-color: white;
       display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 40px 0;
+      position: relative;
+    }
+    
+    .welcome-title {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 4rem;
+      font-weight: 700;
+      color: #111;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      animation: fadeInDown 1.2s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .buildings-container {
+      display: flex;
       justify-content: center;
       align-items: flex-end;
-      padding-bottom: 40px;
-      position: relative;
+      gap: 20px;
     }
 
     .building {
@@ -254,28 +286,31 @@
 <body>
 
   <div class="left-side">
-    <div class="building b1">
-      <div class="eyes">
-        <div class="eye"><div class="pupil"></div></div>
-        <div class="eye"><div class="pupil"></div></div>
+    <h1 class="welcome-title">Bienvenidos a EduPath</h1>
+    <div class="buildings-container">
+      <div class="building b1">
+        <div class="eyes">
+          <div class="eye"><div class="pupil"></div></div>
+          <div class="eye"><div class="pupil"></div></div>
+        </div>
+        <div class="mouth"></div>
       </div>
-      <div class="mouth"></div>
-    </div>
 
-    <div class="building b2">
-      <div class="eyes">
-        <div class="eye"><div class="pupil"></div></div>
-        <div class="eye"><div class="pupil"></div></div>
+      <div class="building b2">
+        <div class="eyes">
+          <div class="eye"><div class="pupil"></div></div>
+          <div class="eye"><div class="pupil"></div></div>
+        </div>
+        <div class="mouth"></div>
       </div>
-      <div class="mouth"></div>
-    </div>
 
-    <div class="building b3">
-      <div class="eyes">
-        <div class="eye"><div class="pupil"></div></div>
-        <div class="eye"><div class="pupil"></div></div>
+      <div class="building b3">
+        <div class="eyes">
+          <div class="eye"><div class="pupil"></div></div>
+          <div class="eye"><div class="pupil"></div></div>
+        </div>
+        <div class="mouth"></div>
       </div>
-      <div class="mouth"></div>
     </div>
   </div>
 

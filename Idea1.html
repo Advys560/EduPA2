@@ -181,35 +181,32 @@
 
     /* Help button */
     .help-button {
-      position: fixed;
-      left: 18px;
-      bottom: 18px;
-      background: var(--primary);
-      color: var(--white);
-      border-radius: 24px;
-      padding: 12px 20px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
+      position: absolute;
+      top: 0.8rem;
+      right: 0.8rem;
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 50%;
+      background: #ffffff;
+      border: none;
       display: flex;
       align-items: center;
-      gap: 8px;
-      z-index: 1200;
-      transition: transform var(--transition), background-color var(--transition);
-      box-shadow: 0 8px 24px rgba(46,88,112,0.15);
-    }
-
-    .help-button:hover {
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+      z-index: 1000;
+    }    .help-button:hover {
       transform: translateY(-2px);
       background: var(--secondary);
     }
 
     .help-button svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    /* When sidebar is open, push the help button to the right to avoid overlap */
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }    /* When sidebar is open, push the help button to the right to avoid overlap */
     .sidebar-open .help-button {
       transform: translateX(calc(var(--sidebar-width,260px) + 12px));
     }
